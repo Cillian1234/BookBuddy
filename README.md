@@ -1,5 +1,13 @@
 Projecgt !
 
+TO START PROJECT!!!
+
+Check node is configured "node -v"
+
+CD TO "BookBuddy/BookBuddy"
+npm run dev
+
+============================================================================
 
 Stuff we gotta keep standardised
 
