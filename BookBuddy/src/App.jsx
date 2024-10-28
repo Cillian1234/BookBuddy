@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import DengBack from './assets/Images by AJ/DengBackpack.png'
+import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
+import './main.css'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,25 +9,25 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+        <a href="https://en.wikipedia.org/wiki/Moo_Deng" target="_blank">
+          <img src={DengRead} className="logo" alt="Hippo reading" />
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a href="https://www.reddit.com/r/vegan/comments/1fsb3cm/moo_deng/" target="_blank">
+          <img src={DengBack} className="logo react" alt="Hippo with backpack" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Book Buddy!</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          The beginning.
+        </p>
+        <p>
+            Only edit files within <code>src</code> or <code>public</code> for the moment
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Logo and React logos to learn more
-      </p>
     </>
   )
 }
