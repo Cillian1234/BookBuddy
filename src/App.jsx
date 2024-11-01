@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import DengBack from './assets/Images by AJ/DengBackpack.png'
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
-import './main.css'
+import '../main.css'
+import Navbar from './components/Navbar'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+        <Navbar />
       <div>
         <a href="https://en.wikipedia.org/wiki/Moo_Deng" target="_blank">
           <img src={DengRead} className="logo" alt="Hippo reading" />
