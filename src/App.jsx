@@ -27,7 +27,7 @@ function App() {
           The beginning.
         </p>
         <p>
-            Only edit files within <code>src</code> or <code>public</code> for the moment
+            do whatever the fuck I dont care anymore
         </p>
       </div>
     </>
