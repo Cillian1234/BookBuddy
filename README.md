@@ -4,7 +4,7 @@ TO START PROJECT!!!
 
 Check node is configured "node -v"
 
-CD TO "BookBuddy/BookBuddy"
+in project root
 npm install,
 npm run dev
 
