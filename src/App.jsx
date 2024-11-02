@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import DengBack from './assets/Images by AJ/DengBackpack.png'
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
 import '../main.css'
@@ -30,6 +31,7 @@ function App() {
             do whatever the fuck I dont care anymore
         </p>
       </div>
+    <SpeedInsights />
     </>
   )
 }
