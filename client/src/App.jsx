@@ -1,13 +1,23 @@
-import { useState } from 'react'
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DengBack from './assets/Images by AJ/DengBackpack.png'
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
 import '../main.css'
 import Navbar from './components/Navbar'
 
-function App() {
-  const [count, setCount] = useState(0)
+import axios from 'axios'
+import {useState} from "react";
 
+
+function App() {
+const [testServer, setTestServer] = useState("")
+
+const apiCall = (event) => {
+    setTestServer(event.target.value)
+    axios.post("http://localhost:8080", testServer)
+        .then(response => {
+            console.log(response)
+        })
+}
   return (
     <>
         <Navbar />
@@ -21,9 +31,9 @@ function App() {
       </div>
       <h1>Book Buddy!</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <input type={"text"} onChange={apiCall}>
+
+        </input>
         <p>
           The beginning.
         </p>
