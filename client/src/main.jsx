@@ -6,11 +6,28 @@ import Child from './pages/child.jsx'
 import Parent from './pages/parent.jsx'
 import Teacher from './pages/teacher.jsx'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import RecordList from "./components/RecordList.jsx";
+import DBTestPage from "./pages/DBTestPage.jsx";
+
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App />
+        element: <App />,
+        children: [
+            {
+                path: "/",
+                element: <RecordList />,
+            },
+        ],
+    },
+    {
+        path: "/DBTest",
+        element: <DBTestPage />,
+    },
+    {
+        path: "/edit/:id",
+        element: <DBTestPage />,
     },
     {
         path: '/Child',

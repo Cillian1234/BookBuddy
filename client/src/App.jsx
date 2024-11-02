@@ -3,21 +3,10 @@ import DengBack from './assets/Images by AJ/DengBackpack.png'
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
 import '../main.css'
 import Navbar from './components/Navbar'
-
-import axios from 'axios'
-import {useState} from "react";
+import {Outlet} from "react-router-dom";
 
 
 function App() {
-const [testServer, setTestServer] = useState("")
-
-const apiCall = (event) => {
-    setTestServer(event.target.value)
-    axios.post("http://localhost:8080", testServer)
-        .then(response => {
-            console.log(response)
-        })
-}
   return (
     <>
         <Navbar />
@@ -31,7 +20,7 @@ const apiCall = (event) => {
       </div>
       <h1>Book Buddy!</h1>
       <div className="card">
-        <input type={"text"} onChange={apiCall}>
+        <input type={"text"} onChange={console.log("click")}>
 
         </input>
         <p>
@@ -41,7 +30,8 @@ const apiCall = (event) => {
             do whatever the fuck I dont care anymore
         </p>
       </div>
-    <SpeedInsights />
+        <hr />
+    <Outlet />
     </>
   )
 }

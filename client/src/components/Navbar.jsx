@@ -9,6 +9,7 @@ export default function Navbar() {
             <Link to={"/Child"}>Child</Link>
             <Link to={"/Parent"}>Parent</Link>
             <Link to={"/Teacher"}>Teacher</Link>
+            <Link to={"/DBTest"}>DB test</Link>
         </nav>
     )
 }
