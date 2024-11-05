@@ -1,0 +1,14 @@
+nav {
+    display: flex;
+    align-items: center;
+    height: 90px;
+    padding: 30px 25px;
+}
+
+nav * {
+    padding: 10px;
+}
+
+nav img {
+    max-width: 200px;
+}
