@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
 //Importing the navbar
-import Navbar from '../../components/Navbar.jsx';
+import Navbar from '../../../src/components/Navbar.jsx';
 //Importing the images used to link to their page
 import starRevB from '../../assets/Images by AJ/starRevB.png';
 import bookHWB from '../../assets/Images by AJ/bookHWB.png';
@@ -13,7 +13,7 @@ export default function Child() {
     return (
     /* Return as a single parent element */
     <> 
-    <Navbar / >
+    <Navbar />
         {/* Creating a div class for the childs contents */}
         <div className = "Contents" style={{backgroundImage: `url(${bckgrdImg})`}}>  
             <div className="ButtonCon">
@@ -22,6 +22,5 @@ export default function Child() {
             </div>
         </div>
     </>
-)
-}
+)}
 

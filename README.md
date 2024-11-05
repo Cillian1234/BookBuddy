@@ -4,9 +4,9 @@ TO START PROJECT!!!
 
 Check node is configured "node -v"
 
-in project root
-npm install,
-npm run dev
+client> npm install, npm run dev
+server> npm install, node --env-file=config.env server
+
 
 ============================================================================
 

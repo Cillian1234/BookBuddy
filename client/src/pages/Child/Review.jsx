@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 //Importing the navbar
-import '../../main.jsx';
+import '../../../../src/main.jsx';
 
 export default function Review() {
   return (
