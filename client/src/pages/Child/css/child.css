@@ -1,6 +1,6 @@
 /* Styling the contents of the page*/
 .Contents {
-    background-image: url('../../assets/Images by AJ/childBgdP.png');
+    background-image: url('../../../assets/Images by AJ/chBckgrd.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
