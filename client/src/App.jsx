@@ -1,4 +1,3 @@
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import DengBack from './assets/Images by AJ/DengBackpack.png'
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
 import '../main.css'
@@ -27,7 +26,7 @@ function App() {
           The beginning.
         </p>
         <p>
-            do whatever the fuck I dont care anymore
+            I{`'`}m losing my mine :3 I love that song where is my mind
         </p>
       </div>
         <hr />

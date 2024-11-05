@@ -1,7 +1,6 @@
-import React from 'react';
 import {Link} from 'react-router-dom';
 //Importing the navbar
-import '../../../../src/main.jsx';
+import Navbar from '../../../src/components/Navbar.jsx';
 
 export default function Assignment() {
   return (
@@ -18,8 +17,8 @@ export default function Assignment() {
 function ChildNavbar() {
   return (
       <nav className="ChildNB">
-          <Link to={"/Child"}>Child</Link>
-          <Link to={"/Review"}>Review</Link>
+          <Navbar />
+          <Link to={"/Child/Review"}>Review</Link>
       </nav>
   )
 }

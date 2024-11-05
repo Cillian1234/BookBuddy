@@ -17,8 +17,8 @@ export default function Child() {
         {/* Creating a div class for the childs contents */}
         <div className = "Contents" style={{backgroundImage: `url(${bckgrdImg})`}}>  
             <div className="ButtonCon">
-            <Link to={"/Review"}><img id = {"sRB"} src={starRevB} alt={"Review"}/></Link>
-            <Link to={"/Assignment"}><img id = {"bHWB"} src={bookHWB} alt={"Assignment"}/></Link>
+            <Link to={"/Child/Review"}><img id = {"sRB"} src={starRevB} alt={"Review"}/></Link>
+            <Link to={"/Child/Assignment"}><img id = {"bHWB"} src={bookHWB} alt={"Assignment"}/></Link>
             </div>
         </div>
     </>

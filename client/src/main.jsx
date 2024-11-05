@@ -8,6 +8,8 @@ import Teacher from './pages/teacher.jsx'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RecordList from "./components/RecordList.jsx";
 import DBTestPage from "./pages/DBTestPage.jsx";
+import Review from "./pages/Child/Review.jsx";
+import Assignment from "./pages/Child/Assignment.jsx";
 
 
 const router = createBrowserRouter([
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
     {
         path: '/Child',
         element: <Child/>,
+    },
+    {
+        path: '/Child/Review',
+        element: <Review />,
+    },
+    {
+        path: '/Child/Assignment',
+        element: <Assignment/>,
     },
     {
         path: '/Parent',
