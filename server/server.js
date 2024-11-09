@@ -1,6 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: './config.env' });
+
+console.log("Loaded URI:", process.env.URI)
+
 import express from 'express';
 import cors from 'cors';
 import records from './routes/record.js';
+
 
 const PORT = process.env.PORT || 8080;
 const app = express();

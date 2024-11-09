@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "dev": "concurrently \"npm install && npm run dev --prefix client\" \"node server/server.js \""
+  }
+}
