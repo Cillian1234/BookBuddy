@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 const Record = (props) => (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-            {props.record.name}
+            {props.record.firstName +" "+ props.record.lastName}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-            {props.record.position}
+            {props.record.email}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-            {props.record.level}
+            {props.record.accessLevel}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
             <div className="flex gap-2">
@@ -40,8 +40,8 @@ export default function RecordList() {
 
     // This method fetches the records from the database.
     useEffect(() => {
-        async function getRecords() {
-            const response = await fetch(`http://localhost:8080/record/`);
+        async function getRecords(collection) {
+            const response = await fetch(`http://localhost:8080/record/${collection}`)
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
                 console.error(message);
@@ -50,7 +50,8 @@ export default function RecordList() {
             const records = await response.json();
             setRecords(records);
         }
-        getRecords();
+        getRecords("Users");
+        console.log(records)
         return;
     }, [records.length]);
 
