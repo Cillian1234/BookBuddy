@@ -19,7 +19,7 @@ function App() {
       </div>
       <h1>Book Buddy!</h1>
       <div className="card">
-        <input type={"text"} onChange={console.log("click")}>
+        <input type={"text"}>
 
         </input>
         <p>
