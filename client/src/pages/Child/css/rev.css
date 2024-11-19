@@ -1,0 +1,32 @@
+/* Styling the contents of the page*/
+.revCon {
+  background-color: rgb(156, 224, 241);
+  height: 100vh;
+}
+  
+/* Aligning .navBTNS to the center at the top */
+.ChildNB {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  margin-top: 10px; /* Add some space below Navbar */
+}
+
+.navBTNS {
+  display: flex;
+  justify-content: center; /* Center horizontally within ChildNB */
+  align-items: center;     /* Center vertically */
+  background-color: rgb(251, 254, 255); /* Background color */
+  padding: 2px; /* Padding to fit the contents without extra space */
+  border-radius: 8px; /* Optional: Add rounded corners for a better look */
+  gap: 10px; /* Space between buttons */
+}
+  
+/* Styling the size of the images */
+#home{
+  width: 100px;
+}
+
+#HWB {
+  margin-top: 40px;
+  width: 120px;
+}
