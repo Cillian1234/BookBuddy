@@ -2,11 +2,9 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -80,26 +78,79 @@ button:focus-visible {
   will-change: filter;
   transition: filter 300ms;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+/* Styling the teacher button */
+.tSign:hover {
+  filter: drop-shadow(0 0 2em #61d4fbaa);
+  transform: scale(1.1);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tSign {
+  width: 40%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* Styling the student button */
+.cSign:hover {
+  filter: drop-shadow(0 0 2em #e6fb61aa);
+  transform: scale(1.1);
+}
+
+.cSign {
+  width: 40%;
+}
+
+/* Styling the parent button */
+.pSign:hover {
+  filter: drop-shadow(0 0 2em #fb6161aa);
+  transform: scale(1.1);
+}
+
+.pSign {
+  width: 40%;
+}
+ 
+ @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+/* Image container styling */
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
+}
+
+a {
+  position: relative;
+  display: inline-block;
+}
+
+a img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+a span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .card {
@@ -109,4 +160,3 @@ button:focus-visible {
 .read-the-docs {
   color: #888;
 }
-

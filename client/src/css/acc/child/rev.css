@@ -1,0 +1,48 @@
+.revCon {
+  background-color: rgb(142, 195, 242);
+  margin: 20px;
+  padding: 20px;
+}
+
+.review-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+}
+
+.star-image, .empty-star-image {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.star-image {
+  filter: grayscale(0%);
+}
+
+.empty-star-image {
+  filter: grayscale(100%);
+}
+
+.ChildNB {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.navBTNS img {
+  width: 50px;
+  height: 50px;
+  margin: 0 10px;
+}
+
+#starAmount{
+  width: 18%;
+}
+

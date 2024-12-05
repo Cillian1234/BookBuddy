@@ -1,38 +1,50 @@
-import DengBack from './assets/Images by AJ/DengBackpack.png'
-import DengRead from './assets/Images by AJ/DengReadingBook.jpg'
-import '../main.css'
-import Navbar from './components/Navbar'
-import {Outlet} from "react-router-dom";
-
+import DengRead from './assets/Images by AJ/DengReadingBook.jpg';
+import teachB from './assets/Images by AJ/BluePencil.png';
+import childB from './assets/Images by AJ/YellowPencil.png';
+import parentB from './assets/Images by AJ/RedPencil.png'; 
+import '../main.css';
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
+  const handleLogin = (role) => { 
+    console.log(`Logged in as ${role}`);
+    // Add any additional login logic here
+  };
+
   return (
     <>
-        <Navbar />
-      <div>
-        <a href="https://en.wikipedia.org/wiki/Moo_Deng" target="_blank">
-          <img src={DengRead} className="logo" alt="Hippo reading" />
+      <Navbar />
+      <div className="image-container">
+        <img src={DengRead} className="logo" alt="Hippo reading" />
+        <a href="/teachSign" target="_blank">
+          <img src={teachB} className="tSign" alt="Blue button pencil" />
+          <span>Teacher</span>
         </a>
-        <a href="https://www.reddit.com/r/vegan/comments/1fsb3cm/moo_deng/" target="_blank">
-          <img src={DengBack} className="logo react" alt="Hippo with backpack" />
+        <a href="/childSign" target="_blank">
+          <img src={childB} className="cSign" alt="yellow pencil" />
+          <span>Child</span>
+        </a>
+        <a href="/parentSign" target="_blank">
+          <img src={parentB} className="pSign" alt="red pencil" />
+          <span>Parent</span>
         </a>
       </div>
+
       <h1>Book Buddy!</h1>
       <div className="card">
-        <input type={"text"}>
-
-        </input>
+        <input type={"text"} />
         <p>
           The beginning.
         </p>
         <p>
-            I{`'`}m losing my mine :3 I love that song where is my mind
+          I{`'`}m losing my mind :3 I love that song "Where Is My Mind".
         </p>
       </div>
-        <hr />
-    <Outlet />
-    </>
-  )
+      <hr />
+      <Outlet />
+      </>
+  );
 }
 
-export default App
+export default App;
