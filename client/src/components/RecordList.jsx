@@ -4,13 +4,13 @@ import {Link} from "react-router-dom";
 const Record = (props) => (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-            {props.record.firstName +" "+ props.record.lastName}
+            {props.record.fName +" "+ props.record.sName}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
             {props.record.email}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-            {props.record.accessLevel}
+            {props.record.level}
         </td>
         <td className="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
             <div className="flex gap-2">
@@ -44,7 +44,6 @@ export default function RecordList() {
             const results = await fetch(`http://localhost:8080/record/`)
                 .then(res => res.json())
             setUsers(results);
-            console.log(results);
         }
         loadUsers()
     }, []);
@@ -84,7 +83,7 @@ export default function RecordList() {
                                 Name
                             </th>
                             <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                                Position
+                                Email
                             </th>
                             <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
                                 Level
