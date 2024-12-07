@@ -1,0 +1,72 @@
+.assignCon {
+    background-color: rgb(233, 121, 140);
+    height: 100vh;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+.ChildNB {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+.navBTNS {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    padding: 2px;
+    border-radius: 8px;
+    gap: 10px;
+  }
+  
+#home {
+    width: 80px;
+  }
+  
+#strB {
+    margin-top: 40px;
+    width: 130px;
+  }
+  
+.ChildNB {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+.navBTNS img {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+  }
+  
+.assignment-list,
+  .teacher-comments {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+.assignment-item,
+  .comment-item {
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+.assignment-item h3,
+  .comment-item h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+.assignment-item p,
+  .comment-item p {
+    margin: 5px 0 0;
+    color: #555;
+  }
+  

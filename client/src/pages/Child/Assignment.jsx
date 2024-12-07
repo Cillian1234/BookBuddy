@@ -1,21 +1,66 @@
-import {Link} from 'react-router-dom';
-//Importing the navbar
+import { Link } from 'react-router-dom';
+// Importing the navbar
 import Navbar from '../../../src/components/Navbar.jsx';
-//Importing images for navbar
-//Importing the images used to link to their page
+// Importing images for navbar
 import starRevB from '../../assets/Images by AJ/starRevB.png';
 import home from '../../assets/Images by AJ/home.png';
-//Importing the css files from css folder
-import './css/assign.css'; 
+// Importing the CSS files from the CSS folder
+import '../../css/acc/child/assign.css';
+import React, { useState } from 'react';
 
 export default function Assignment() {
+  // State for assignments
+  const [assignments, setAssignments] = useState([
+    {
+      title: 'Project',
+      comment: 'Code',
+    },
+    {
+      title: 'Project',
+      comment: 'Code again',
+    },
+    {
+      title: 'Project',
+      comment: 'Code again! :D',
+    },
+  ]);
+
+  // State for comments from teachers
+  const [teacherComments, setTeacherComments] = useState([
+    {
+      teacherName: 'Begonia',
+      comment: 'Keep working!',
+    },
+    {
+      teacherName: 'petunia',
+      comment: 'Never forget to code! >:PPP',
+    },
+  ]);
+
   return (
     <> 
-    <ChildNavbar />
-    <div className = "assignCon">
-      <h1>Assignment Page</h1>
-      <p>This is where assignments will be displayed and managed.</p>
-    </div>
+      <ChildNavbar />
+      <div className="assignCon">
+        <h1>Assignment Page</h1>
+        <ul className="assignment-list">
+          {assignments.map((assignment, index) => (
+            <li key={index} className="assignment-item">
+              <h3>{assignment.title}</h3>
+              <p>{assignment.comment}</p>
+            </li>
+          ))}
+        </ul>
+        
+        <h2>Teacher Comments</h2>
+        <ul className="teacher-comments">
+          {teacherComments.map((comment, index) => (
+            <li key={index} className="comment-item">
+              <h3>{comment.teacherName}</h3>
+              <p>{comment.comment}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
@@ -23,14 +68,13 @@ export default function Assignment() {
 function ChildNavbar() {
   return (
     <>
-    <Navbar/>
-
+      <Navbar />
       <nav className="ChildNB">
-          <div className="navBTNS">
-          <Link to={"/Child"}><img id = {"home"} src={home} alt={"home"}/></Link>
-          <Link to={"/Child/Review"}><img id = {"strB"} src={starRevB} alt={"Review"}/></Link>
-          </div>
+        <div className="navBTNS">
+          <Link to={"/Child"}><img id="home" src={home} alt="home" /></Link>
+          <Link to={"/Child/Review"}><img id="strB" src={starRevB} alt="Review" /></Link>
+        </div>
       </nav>
     </>
-  )
+  );
 }

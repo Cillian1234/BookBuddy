@@ -5,17 +5,16 @@ import Navbar from '../../../src/components/Navbar.jsx';
 import starRevB from '../../assets/Images by AJ/starRevB.png';
 import bookHWB from '../../assets/Images by AJ/bookHWB.png';
 //Importing the css files from css folder
-import './css/child.css'; 
+import '../../css/acc/child/child.css'; 
 //Importing image for the background
 import bckgrdImg from '../../assets/Images by AJ/chBckgrd.png';
 
 export default function Child() {
     return (
-    /* Return as a single parent element */
     <> 
     <Navbar />
         {/* Creating a div class for the childs contents */}
-        <div className = "Contents" style={{backgroundImage: `url(${bckgrdImg})`}}>  
+        <div className = "child-Con" style={{backgroundImage: `url(${bckgrdImg})`}}>  
             <div className="ButtonCon">
             <Link to={"/Child/Review"}><img id = {"sRB"} src={starRevB} alt={"Review"}/></Link>
             <Link to={"/Child/Assignment"}><img id = {"bHWB"} src={bookHWB} alt={"Assignment"}/></Link>
