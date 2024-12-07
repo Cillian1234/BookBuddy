@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 // Get 1 record
 router.get("/:id", async (req, res) => {
-    let collection = await db.collection("records");
+    let collection = await db.collection("Users");
     let query = {_id: new ObjectId(req.params.id)}
     let result = await collection.findOne(query)
 
@@ -29,11 +29,13 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
         let newDocument = {
-            name: req.body.name,
-            position: req.body.position,
+            fName: req.body.fName,
+            sName: req.body.sName,
+            pass: req.body.pass,
+            email: req.body.email,
             level: req.body.level
         };
-        let collection = await db.collection("records");
+        let collection = await db.collection("Users");
         let result = await collection.insertOne(newDocument);
         res.send(result).status(204);
     } catch (err) {
@@ -48,13 +50,15 @@ router.patch("/:id", async (req, res) => {
         const query = {_id: new ObjectId(req.params.id)}
         const updates = {
             $set: {
-                name: req.body.name,
-                position: req.body.position,
+                fName: req.body.fName,
+                sName: req.body.sName,
+                pass: req.body.pass,
+                email: req.body.email,
                 level: req.body.level
             }
         };
 
-        let collection = await db.collection("records");
+        let collection = await db.collection("Users");
         let result = await collection.updateOne(query, updates);
         res.send(result).status(200);
     } catch (err) {
@@ -67,7 +71,7 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const query = {_id: new ObjectId(req.params.id)}
-        const collection = await db.collection("records");
+        const collection = await db.collection("Users");
         let result = await collection.deleteOne(query)
         res.send(result).status(200);
     } catch (err) {
