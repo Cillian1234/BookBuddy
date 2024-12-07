@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 const Record = (props) => (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
@@ -36,37 +36,31 @@ const Record = (props) => (
 );
 
 export default function RecordList() {
-    const [records, setRecords] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    // This method fetches the records from the database.
+    // This method fetches the user records from the database.
     useEffect(() => {
-        async function getRecords(collection) {
-            const response = await fetch(`server/routes/record/${collection}`)
-            if (!response.ok) {
-                const message = `An error occurred: ${response.statusText}`;
-                console.error(message);
-                return;
-            }
-            const records = await response.json();
-            setRecords(records);
+        const loadUsers = async () => {
+            const results = await fetch(`http://localhost:8080/record/`)
+                .then(res => res.json())
+            setUsers(results);
+            console.log(results);
         }
-        getRecords("Users");
-        console.log(records)
-        return;
-    }, [records.length]);
+        loadUsers()
+    }, []);
 
     // This method will delete a record
     async function deleteRecord(id) {
         await fetch(`server/routes/record/${id}`, {
             method: "DELETE",
         });
-        const newRecords = records.filter((el) => el._id !== id);
-        setRecords(newRecords);
+        const newUsers = users.filter((el) => el._id !== id);
+        setUsers(newUsers);
     }
 
     // This method will map out the records on the table
     function recordList() {
-        return records.map((record) => {
+        return users.map((record) => {
             return (
                 <Record
                     record={record}

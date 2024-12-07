@@ -1,26 +1,16 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-import 'dotenv/config';
-import {config} from "dotenv";
+import { MongoClient } from "mongodb";
 
-config({path: "config.env", debug: true })
+const connectionString = process.env.ATLAS_URI || "";
 
-const uri = process.env.ATLAS_URI || "";
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true
-    }
-});
+const client = new MongoClient(connectionString);
 
+let conn;
 try {
-    await client.connect(); // Connect client to server
-    await client.db("admin").command({ping: 1}); // Ping to confirm connection
-    console.log("Connected to DB");
-} catch (err) {
-    console.error(err);
+    conn = await client.connect();
+} catch(e) {
+    console.error(e);
 }
 
-let db = client.db("BookBuddy");
+let db = conn.db("BookBuddy");
 
 export default db;
