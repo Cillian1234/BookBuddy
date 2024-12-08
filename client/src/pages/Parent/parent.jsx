@@ -22,6 +22,8 @@ export default function Parent() {
     <Navbar />
         <div className="Contents">  
             <div className="ButtonContainer">
+                {/* // TODO: DIRECT TO ITS OWN CHILD PAGE AND TEACHER PAGE
+                // TODO: DISPLAY MORE OF DATA FROM EACH PAGE RATHER THAN REDIRECTING TO THEIR PAGE AND GAINING ACCESS TO TEACHERS PAGE */}
                 <Link to={"/Child"} className="navButton">Child</Link>
                 <Link to={"/Teacher"} className="navButton">Teacher</Link>
             </div>
