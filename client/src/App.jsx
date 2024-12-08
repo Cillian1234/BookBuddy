@@ -7,10 +7,15 @@ import Navbar from './components/Navbar';
 import { Outlet } from "react-router-dom";
 
 function App() {
-  // const handleLogin = (role) => {
-  //   console.log(`Logged in as ${role}`);
-  //   // Add any additional login logic here
-  // };
+    async function setSession() {
+        await fetch("http://localhost:8080/record/setSession")
+        .then((res) => console.log(res.text()))
+    }
+
+    async function getSession() {
+        await fetch("http://localhost:8080/record/getSession")
+            .then((res) => console.log(res.text()))
+    }
 
   return (
     <>
@@ -32,18 +37,19 @@ function App() {
       </div>
 
       <h1>Book Buddy!</h1>
-      <div className="card">
-        <input type={"text"} />
-        <p>
-          The beginning.
-        </p>
-        <p>
-          I{`'`}m losing my mind :3 I love that song "Where Is My Mind".
-        </p>
-      </div>
-      <hr />
-      <Outlet />
-      </>
+        <div className="card">
+            <button onClick={setSession}>Set</button>
+            <button onClick={getSession}>Get</button>
+            <p>
+                The beginning.
+            </p>
+            <p>
+                I{`'`}m losing my mind :3 I love that song "Where Is My Mind".
+            </p>
+        </div>
+        <hr/>
+        <Outlet/>
+    </>
   );
 }
 

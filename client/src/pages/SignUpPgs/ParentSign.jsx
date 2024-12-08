@@ -28,7 +28,6 @@ const ParentSign = ({ onLogin }) => {
             if (!res.ok) {
               setErrMessage(errMessage => !errMessage);
             } else {
-              res.json()
               navigate('/parent');
             }
           })

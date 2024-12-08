@@ -1,8 +1,16 @@
 import express from "express";
+import session from "express-session";
 import db from "../db/connection.js" // DB connection
 import {ObjectId} from "mongodb";
 
 const router = express.Router(); // Router defines routes
+router.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+    })
+)
 
 // Get records
 router.get("/", async (req, res) => {
@@ -13,7 +21,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get 1 record
-router.get("/:id", async (req, res) => {
+router.get("/getOne/:id", async (req, res) => {
     let collection = await db.collection("Users");
     let query = {_id: new ObjectId(req.params.id)}
     let result = await collection.findOne(query)
@@ -39,7 +47,24 @@ router.post("/login", async (req, res) => {
     if (!result) {
         res.sendStatus(404)
     } else {
-        res.send(result).status(200)
+
+        res.send("Login successful!").status(200)
+    }
+})
+
+// TODO: https://www.geeksforgeeks.org/how-to-handle-sessions-in-express/ Continue with sessions
+
+router.get("/setSession", async (req, res) => {
+    req.session.user = {id: "1", username: "test"}
+    res.send("Session is logged in")
+})
+
+router.get("/getSession", async (req, res) => {
+    if (req.session.user) {
+        res.send('Session data: '
+            + JSON.stringify(req.session.user));
+    } else {
+        res.send('No session data found');
     }
 })
 

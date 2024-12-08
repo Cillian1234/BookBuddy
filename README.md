@@ -35,3 +35,5 @@ Currently, two official plugins are available:
 Concurrently - Streamlining development startup - https://www.npmjs.com/package/concurrently
 
 React barcode Scanner - https://www.npmjs.com/package/react-barcode-reader
+
+js-cookie - https://www.npmjs.com/package/js-cookie
