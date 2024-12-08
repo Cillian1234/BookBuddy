@@ -25,6 +25,24 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.post("/login", async (req, res) => {
+    const body = await req.body;
+    const {username, pass, level} = body;
+
+    let collection = await db.collection("Users");
+    let query = {
+        email: username,
+        pass: pass,
+        level: level,
+    }
+    let result = await collection.findOne(query)
+    if (!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result).status(200)
+    }
+})
+
 // Create record
 router.post("/", async (req, res) => {
     try {

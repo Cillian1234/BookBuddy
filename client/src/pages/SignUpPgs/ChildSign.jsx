@@ -6,26 +6,39 @@ import childGP from '../../assets/Images by AJ/GreenPencil.png';
 const ChildSign = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [pass, setPass] = useState('');
-  const [message, setMessage] = useState('');
+  const [errMessage, setErrMessage] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const level = "Child"
 
-    const role = "child";  // Simulate a successful login
-    if (onLogin) {
-      onLogin(role);
-      setMessage('Login successful!');
-    } else {
-      console.error('onLogin function is not provided');
+    // TODO: figure out how to get server/Login.js to work instead of copying this code
+
+    async function login() {
+      await fetch(`http://localhost:8080/record/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Indicate the type of data being sent
+        },
+        body: JSON.stringify({
+          username, pass, level
+        }),
+      })
+          .then(res => {
+            if (!res.ok) {
+              setErrMessage(errMessage => !errMessage);
+            } else {
+              res.json()
+              navigate('/child');
+            }
+          })
     }
+    login()
   };
 
   useEffect(() => {
-    if (message === 'Login successful!') {
-      navigate('/Child');  // Redirect to child home page
-    }
-  }, [message, navigate]);
+  }, []);
 
   return (
     <div className="cSign-Con">
@@ -58,7 +71,7 @@ const ChildSign = ({ onLogin }) => {
           <label htmlFor="remember">Remember me</label>
         </div>
         <button type="submit" className="submit-BChild"><img src={childGP} className="childGP-Sty" alt="yellow pencil" /></button>
-        {message && <p>{message}</p>}
+        {errMessage && <p>Wrong</p>}
       </form>
     </div>
   );
