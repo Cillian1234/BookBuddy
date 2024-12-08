@@ -1,39 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate} from 'react-router-dom';
 import '../../css/login/teachSign.css';
+import Login from '../../../../server/loginLogic/Login.js'
 
 const TeachSign = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [pass, setPass] = useState('');
-  const [message, setMessage] = useState('');
+  const [errMessage, setErrMessage] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const level = "Teacher"
 
-    const role = "teacher";  // Simulate a successful login
-    if (onLogin) {
-      onLogin(role);
-      setMessage('Login successful!');
-    } else {
-      console.error('onLogin function is not provided');
+    // TODO: figure out how to get server/Login.js to work instead of copying this code
+
+    async function login() {
+      await fetch(`http://localhost:8080/record/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Indicate the type of data being sent
+        },
+        body: JSON.stringify({
+          username, pass, level
+        }),
+      })
+          .then(res => {
+            if (!res.ok) {
+              setErrMessage(errMessage => !errMessage);
+            } else {
+              res.json()
+              navigate('/teacher');
+            }
+          })
     }
+    login()
   };
 
   useEffect(() => {
-    if (message === 'Login successful!') {
-      navigate('/Teacher');  // Redirect to teacher home page
-    }
-  }, [message, navigate]);
+  }, []);
 
   return (
     <div className="TeachSign-con">
       <form onSubmit={handleSubmit} className="form">
         <h2>Teacher Signup</h2>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Email</label>
           <input
-            type="text"
+            type="email"
             id="username"
             name="username"
             required
@@ -57,7 +71,7 @@ const TeachSign = ({ onLogin }) => {
           <label htmlFor="remember">Remember me</label>
         </div>
         <button type="submit" className="sub-B-T">Signup</button>
-        {message && <p>{message}</p>}
+        {errMessage && <p>Wrong</p>}
       </form>
     </div>
   );

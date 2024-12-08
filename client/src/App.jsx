@@ -4,13 +4,13 @@ import childB from './assets/Images by AJ/YellowPencil.png';
 import parentB from './assets/Images by AJ/RedPencil.png'; 
 import '../main.css';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const handleLogin = (role) => { 
-    console.log(`Logged in as ${role}`);
-    // Add any additional login logic here
-  };
+  // const handleLogin = (role) => {
+  //   console.log(`Logged in as ${role}`);
+  //   // Add any additional login logic here
+  // };
 
   return (
     <>
