@@ -1,30 +1,32 @@
 import { Link } from 'react-router-dom';
-// Importing the navbar component
 import Navbar from '../../../src/components/Navbar.jsx';
-// Importing the CSS files for styling
 import '../../css/acc/teacher/teacher.css';
 import React, { useState, useEffect } from 'react';
 
 export default function Teacher() {
-  // Initial classrooms data
   const [classrooms, setClassrooms] = useState([
-    { 
-      // First classroom with its students and assignments
-      name: 'Students',
-      students: [
-        { name: 'Kevin McCallister', parent: 'I forgot', review: { stars: 5, comment: 'Best Behaviour in class' }, notifications: 3 },
-        { name: 'Michael Myers', parent: 'have no clue', review: { stars: 5, comment: 'Completing assignments' }, notifications: 2 }
+    {
+      name: 'CODE CLASS 1',
+      groups: [
+        { name: 'Group A', students: [
+          { name: 'Kevin McCallister', review: { stars: 5, comment: 'Best Behaviour in class' }, notifications: 3 },
+          { name: 'Michael Myers', review: { stars: 5, comment: 'Completing assignments' }, notifications: 2 }
+        ]},
+        { name: 'Group B', students: [
+          { name: 'Mr Fox', review: { stars: 4, comment: 'Good participation' }, notifications: 1 }
+        ]}
       ],
       assignments: [
         { title: 'coding', dueDate: '2024-04-10' },
         { title: 'Exam', dueDate: '2024-04-12' }
       ],
     },
-    { 
-      // Second classroom with its students and assignments
-      name: 'We are coding class',
-      students: [
-        { name: 'Jaden Hossler', parent: 'Mr. Hossler', review: { stars: 4, comment: 'Great participation' }, notifications: 1 }
+    {
+      name: 'CODE CLASS 2',
+      groups: [
+        { name: 'Group A', students: [
+          { name: 'Jaden Hossler', review: { stars: 4, comment: 'Great participation' }, notifications: 1 }
+        ]}
       ],
       assignments: [
         { title: 'Crying', dueDate: '2024-04-15' }
@@ -32,39 +34,50 @@ export default function Teacher() {
     },
   ]);
 
-  // State for the selected classroom, student, and new assignment details
   const [selectedClassroom, setSelectedClassroom] = useState(classrooms[0]);
-  const [selectedStudent, setSelectedStudent] = useState(classrooms[0].students[0]);
+  const [selectedGroup, setSelectedGroup] = useState(classrooms[0].groups[0]);
+  const [selectedStudent, setSelectedStudent] = useState(classrooms[0].groups[0].students[0]);
   const [newAssignment, setNewAssignment] = useState({ title: '', dueDate: '' });
+  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [editingStudent, setEditingStudent] = useState(null);
 
   useEffect(() => {
     if (!selectedClassroom && classrooms.length > 0) {
       setSelectedClassroom(classrooms[0]);
     }
-    if (selectedClassroom && !selectedStudent && selectedClassroom.students.length > 0) {
-      setSelectedStudent(selectedClassroom.students[0]);
+    if (selectedClassroom && !selectedGroup && selectedClassroom.groups.length > 0) {
+      setSelectedGroup(selectedClassroom.groups[0]);
     }
-  }, [classrooms, selectedClassroom, selectedStudent]);
+    if (selectedGroup && !selectedStudent && selectedGroup.students.length > 0) {
+      setSelectedStudent(selectedGroup.students[0]);
+    }
+  }, [classrooms, selectedClassroom, selectedGroup, selectedStudent]);
 
-  // Function to handle adding a review for a student
   const handleReview = (studentName, stars, comment) => {
     setClassrooms(prevClassrooms =>
       prevClassrooms.map(classroom =>
         classroom.name === selectedClassroom.name
           ? {
               ...classroom,
-              students: classroom.students.map(student =>
-                student.name === studentName
-                  ? { ...student, review: { stars, comment } }
-                  : student
+              groups: classroom.groups.map(group =>
+                group.name === selectedGroup.name
+                  ? {
+                      ...group,
+                      students: group.students.map(student =>
+                        student.name === studentName
+                          ? { ...student, review: { stars, comment } }
+                          : student
+                      ),
+                    }
+                  : group
               ),
             }
           : classroom
       )
     );
+    setEditingStudent(null);
   };
 
-  // Function to handle adding a new assignment to a classroom
   const handleAddAssignment = () => {
     setClassrooms(prevClassrooms =>
       prevClassrooms.map(classroom =>
@@ -76,59 +89,112 @@ export default function Teacher() {
           : classroom
       )
     );
-    // Reset the new assignment state
     setNewAssignment({ title: '', dueDate: '' });
   };
 
-  // Function to handle adding a new student to a classroom
-  const handleAddStudent = (classroomName, student) => {
+  const handleAddStudent = (groupName, student) => {
     setClassrooms(prevClassrooms =>
       prevClassrooms.map(classroom =>
-        classroom.name === classroomName
+        classroom.name === selectedClassroom.name
           ? {
               ...classroom,
-              students: [...classroom.students, student],
+              groups: classroom.groups.map(group =>
+                group.name === groupName
+                  ? {
+                      ...group,
+                      students: [...group.students, student],
+                    }
+                  : group
+              ),
             }
           : classroom
       )
     );
   };
 
+  const handleSelectStudent = (studentName) => {
+    setSelectedStudents(prevSelected =>
+      prevSelected.includes(studentName)
+        ? prevSelected.filter(name => name !== studentName)
+        : [...prevSelected, studentName]
+    );
+    setEditingStudent(selectedGroup.students.find(student => student.name === studentName));
+  };
+
   return (
-    <> 
+    <>
       <Navbar />
-      <div className="contents">  
-        <h2>Teacher's Dashboard</h2>
-
-        {/* List of Classrooms */}
-        <h3>Classrooms</h3>
-        <ul className="classroom-list">
-          {classrooms.map(classroom => (
-            <li key={classroom.name} onClick={() => setSelectedClassroom(classroom)}>
-              {classroom.name} ({classroom.students.length} students, {classroom.assignments.length} assignments)
-            </li>
-          ))}
-        </ul>
-
-        {/* Display students in the selected classroom */}
-        {selectedClassroom && (
-          <div className="classroom-details">
-            <h3>{selectedClassroom.name}</h3>
-            <ul className="student-list">
-              {selectedClassroom.students.map(student => (
-                <li key={student.name} onClick={() => setSelectedStudent(student)}>
-                  {student.name} (Parent: {student.parent}) - {student.notifications} notifications
-                </li>
+      <div className="dashboard-container">
+        <div className="teacher-info">
+          {/*//TODO: ADD THE TEACHERS IMAGE AND NAME UPLOADED FROM DATABASE */}
+        </div>
+        <div className="notifications-section">
+          <h2>Notifications</h2>
+          {classrooms.flatMap(classroom => classroom.groups.flatMap(group => group.students.map(student => (
+            student.notifications > 0 && (
+              <div key={student.name} className="notification">
+                {student.name} in <strong>{classroom.name}</strong> - <strong>{group.name}</strong> has {student.notifications} notifications
+              </div>
+            )
+          ))))}
+        </div>
+        <div className="classrooms-section">
+          <h2>Classrooms</h2>
+          {classrooms.map((classroom, index) => (
+            <div key={index} className="classroom">
+              <h3>{classroom.name}</h3>
+              {classroom.groups.map((group, idx) => (
+                <div key={idx} className="group">
+                  <button onClick={() => setSelectedGroup(group)}>
+                    {group.name}
+                  </button>
+                  {selectedGroup === group && (
+                    <ul>
+                      {group.students.map((student, i) => (
+                        <li
+                          key={i}
+                          className={selectedStudents.includes(student.name) ? 'selected' : ''}
+                          onClick={() => handleSelectStudent(student.name)}
+                        >
+                          {student.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Form to add a new assignment */}
-        <div className="assignment-form">
-          <h3>Add Assignment</h3>
+            </div>
+          ))}
+        </div>
+        <div className="assignments-section">
+          <h2>Assignments</h2>
           <label>
-            Title:
+            Classroom:
+            <select
+              onChange={e => {
+                const selectedClass = classrooms.find(c => c.name === e.target.value);
+                setSelectedClassroom(selectedClass);
+                setSelectedGroup(selectedClass.groups[0]);
+              }}
+            >
+              {classrooms.map((classroom, idx) => (
+                <option key={idx} value={classroom.name}>{classroom.name}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Group:
+            <select
+              onChange={e => setSelectedGroup(selectedClassroom.groups.find(g => g.name === e.target.value))}
+              value={selectedGroup.name}
+            >
+              {selectedClassroom.groups.map((group, idx) => (
+                <option key={idx} value={group.name}>{group.name}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Task:
             <input
               type="text"
               value={newAssignment.title}
@@ -145,18 +211,16 @@ export default function Teacher() {
           </label>
           <button onClick={handleAddAssignment}>Add Assignment</button>
         </div>
-
-        {/* Form to add a review for a selected student */}
-        {selectedStudent && (
-          <div className="review-form">
-            <h3>Review {selectedStudent.name}</h3>
+        {editingStudent && (
+          <div className="student-review">
+            <h3>Review {editingStudent.name}</h3>
             <label>
               Stars:
               <input
                 type="number"
-                value={selectedStudent.review.stars}
+                value={editingStudent.review.stars}
                 onChange={e =>
-                  handleReview(selectedStudent.name, Number(e.target.value), selectedStudent.review.comment)
+                  handleReview(editingStudent.name, Number(e.target.value), editingStudent.review.comment)
                 }
                 max={5}
                 min={1}
@@ -165,32 +229,14 @@ export default function Teacher() {
             <label>
               Comment:
               <textarea
-                value={selectedStudent.review.comment}
+                value={editingStudent.review.comment}
                 onChange={e =>
-                  handleReview(selectedStudent.name, selectedStudent.review.stars, e.target.value)
+                  handleReview(editingStudent.name, editingStudent.review.stars, e.target.value)
                 }
               ></textarea>
             </label>
           </div>
         )}
-
-        {/* Form to add a new student to the selected classroom */}
-        <div className="add-student-form">
-          <h3>Add Student to Classroom</h3>
-          <label>
-            Student Name:
-            <input type="text" placeholder="Student Name" id="studentName" />
-          </label>
-          <label>
-            Parent Name:
-            <input type="text" placeholder="Parent Name" id="parentName" />
-          </label>
-          <button onClick={() => {
-            const studentName = document.getElementById('studentName').value;
-            const parentName = document.getElementById('parentName').value;
-            handleAddStudent(selectedClassroom.name, { name: studentName, parent: parentName, review: { stars: 0, comment: '' }, notifications: 0 });
-          }}>Add Student</button>
-        </div>
       </div>
     </>
   );
