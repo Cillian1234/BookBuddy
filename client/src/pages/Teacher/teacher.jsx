@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Navbar from '../../../src/components/Navbar.jsx';
 import '../../css/acc/teacher/teacher.css';
 import React, { useState, useEffect } from 'react';

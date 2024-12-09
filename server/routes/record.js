@@ -33,6 +33,18 @@ router.get("/getOne/:id", async (req, res) => {
     }
 });
 
+router.post("/getReviews", async (req, res) => {
+    const body = await req.body;
+    const {childID} = body;
+
+    let collection = await db.collection("Reviews");
+    let results = await collection.find({
+        childID: childID,
+    }).toArray();
+
+    res.send(results).status(200);
+});
+
 router.post("/login", async (req, res) => {
     const body = await req.body;
     const {username, pass, level} = body;

@@ -36,7 +36,6 @@ export default function DBTestPage() {
             setForm(record);
         }
         fetchData();
-        return;
     }, [params.id, navigate]);
 
     function updateForm(value) {

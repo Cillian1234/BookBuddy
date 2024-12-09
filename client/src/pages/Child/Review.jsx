@@ -7,22 +7,31 @@ import bookHWB from '../../assets/Images by AJ/bookHWB.png';
 import star from '../../assets/Images by AJ/1Star.png'; // Importing the star image
 // Importing CSS file for styling
 import '../../css/acc/child/rev.css'; 
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
+import * as http from "node:http";
 
 export default function Review() {
   // State to store reviews with teacher's name, star ratings, and comments
-  const [reviews, setReviews] = useState([
-    {
-      teacherName: 'Freddie',
-      stars: 5,
-      comment: 'Great job on your assignment!',
-    },
-    {
-      teacherName: 'Bonnie',
-      stars: 4,
-      comment: 'Keep up the good work!',
-    },
-  ]);
+  const [reviews, setReviews] = useState([]);
+  const childID = 1; // TODO: Get child ID from logged in sessions
+
+  useEffect(() => {
+    getReviews(1)
+  }, []);
+
+  function getReviews(childID) {
+      fetch(`http://localhost:8080/record/getReviews/`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json', // Indicate the type of data being sent
+          },
+          body: JSON.stringify({
+              childID
+          }),
+      })
+          .then((res) => res.json())
+          .then((data) => {setReviews(data)})
+  }
 
   // Calculate total stars from all reviews
   const totalStars = reviews.reduce((acc, review) => acc + review.stars, 0);

@@ -4,7 +4,7 @@ import '../../css/login/teachSign.css';
 import Login from '../../../../server/loginLogic/Login.js'
 import Diamonds from '../../assets/Images by AJ/YellowSparkle.png';
 
-//TODO: ADD BOOKS IMAGE
+// TODO: ADD BOOKS IMAGE
 // import Books from '../../assets/Images by AJ/.png';
 
 const TeachSign = ({ onLogin }) => {

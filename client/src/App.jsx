@@ -4,13 +4,10 @@ import teachB from './assets/Images by AJ/BluePencil.png';
 import childB from './assets/Images by AJ/YellowPencil.png';
 import parentB from './assets/Images by AJ/RedPencil.png'; 
 import '../main.css';
-import Navbar from './components/Navbar';
 import { Outlet } from "react-router-dom";
-import parentB from './assets/Images by AJ/RedPencil.png';
 import yellowStars from './assets/Images by AJ/YellowStars.png';
 import '../main.css'; // Importing CSS file
 import Navbar from './components/Navbar'; // Importing Navbar component
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom"; // Importing Router components
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'; // Importing Barcode Scanner component
 
 function App() {
@@ -78,23 +75,16 @@ function App() {
             </p>
         </div>
         <hr/>
-        <Outlet/>
-    </>
-      <div className="card">
-        <input type="text" /> {/* Input field */}
-        <p>The beginning.</p> {/* Some text */}
-        <p>I'm losing my mind :3 I love that song "Where Is My Mind".</p> {/* More text */}
-      </div>
-      <hr /> {/* Horizontal line */}
-      <Outlet /> {/* Placeholder for nested routes */}
-      <div className="barcode-scanner">
-        <BarcodeScannerComponent
-          width={500}
-          height={500}
-          onUpdate={(err, result) => handleScan(err, result)} // Handling barcode scan
-        />
-        <p>{barcodeResult}</p> {/* Displaying scanned result */}
-      </div>
+        {/* Horizontal line */}
+        <Outlet/> {/* Placeholder for nested routes */}
+        <div className="barcode-scanner">
+            <BarcodeScannerComponent
+                width={500}
+                height={500}
+                onUpdate={(err, result) => handleScan(err, result)} // Handling barcode scan
+            />
+            <p>{barcodeResult}</p> {/* Displaying scanned result */}
+        </div>
     </>
   );
 }

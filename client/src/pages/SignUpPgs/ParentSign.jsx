@@ -93,7 +93,7 @@ const ParentSign = ({ onLogin }) => {
           />
         </div>
         <button type="submit" className="sub-BP">Submit</button>
-        {message && <p>{message}</p>}
+        {errMessage && <p>{errMessage}</p>}
       </form>
     </div>
   );

@@ -83,7 +83,7 @@ const ChildSign = ({ onLogin }) => {
           <img src={childGP} className="childGP-Sty" alt="green pencil" />
           <span className="submit-text">Submit</span>
         </button>
-        {message && <p>{message}</p>}
+        {errMessage && <p>{errMessage}</p>}
       </form>
     </div>
   );
