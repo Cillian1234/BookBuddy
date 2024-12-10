@@ -38,7 +38,12 @@ export default function Teacher() {
   const [selectedStudent, setSelectedStudent] = useState(classrooms[0].groups[0].students[0]);
   const [newAssignment, setNewAssignment] = useState({ title: '', dueDate: '' });
   const [selectedStudents, setSelectedStudents] = useState([]);
-  const [editingStudent, setEditingStudent] = useState(null);
+  const [studentReview, setStudentReview] = useState({
+    childID: "",
+    stars: "",
+    teacherName: "",
+    teacherComment: "",
+  });
 
   useEffect(() => {
     if (!selectedClassroom && classrooms.length > 0) {
@@ -52,30 +57,29 @@ export default function Teacher() {
     }
   }, [classrooms, selectedClassroom, selectedGroup, selectedStudent]);
 
-  const handleReview = (studentName, stars, comment) => {
-    setClassrooms(prevClassrooms =>
-      prevClassrooms.map(classroom =>
-        classroom.name === selectedClassroom.name
-          ? {
-              ...classroom,
-              groups: classroom.groups.map(group =>
-                group.name === selectedGroup.name
-                  ? {
-                      ...group,
-                      students: group.students.map(student =>
-                        student.name === studentName
-                          ? { ...student, review: { stars, comment } }
-                          : student
-                      ),
-                    }
-                  : group
-              ),
-            }
-          : classroom
-      )
-    );
-    setEditingStudent(null);
-  };
+  function handleReviewChange(field, changedValue) {
+    setStudentReview(prevReview => ({
+      ...prevReview,
+      [field]: changedValue,
+    }));
+    console.log(studentReview);
+  }
+
+  async function handleReviewSubmit(event) {
+    event.preventDefault();
+
+    await fetch(`http://localhost:8080/record/setReview/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        ...studentReview
+      }),
+    })
+        .then((res) => res.json())
+        .then((data) => {console.log(data)})
+  }
 
   const handleAddAssignment = () => {
     setClassrooms(prevClassrooms =>
@@ -210,32 +214,58 @@ export default function Teacher() {
           </label>
           <button onClick={handleAddAssignment}>Add Assignment</button>
         </div>
-        {editingStudent && (
-          <div className="student-review">
-            <h3>Review {editingStudent.name}</h3>
-            <label>
-              Stars:
-              <input
-                type="number"
-                value={editingStudent.review.stars}
-                onChange={e =>
-                  handleReview(editingStudent.name, Number(e.target.value), editingStudent.review.comment)
+        <form className="student-review" onSubmit={handleReviewSubmit}>
+          <h3>Review student name</h3> /* TODO: add selected student name here */
+          <label>
+            StudentID:
+            <input
+                type="text"
+                name="childID"
+                value={studentReview.studentID}
+                onChange={
+                  e => handleReviewChange(e.target.name, e.target.value)
                 }
                 max={5}
                 min={1}
-              />
-            </label>
-            <label>
-              Comment:
-              <textarea
-                value={editingStudent.review.comment}
-                onChange={e =>
-                  handleReview(editingStudent.name, editingStudent.review.stars, e.target.value)
+            />
+          </label>
+          <label>
+            Stars:
+            <input
+                type="number"
+                name="stars"
+                value={studentReview.stars}
+                onChange={
+                  e => handleReviewChange(e.target.name, e.target.value)
                 }
-              ></textarea>
-            </label>
-          </div>
-        )}
+                max={5}
+                min={1}
+            />
+          </label>
+          <label>
+            Teacher name: /* TODO: get teacher name from sessions */
+            <input
+                type="text"
+                name="teacherName"
+                value={studentReview.teacherName}
+                onChange={
+                  e => handleReviewChange(e.target.name, e.target.value)
+                }
+            ></input>
+          </label>
+          <label>
+            Comment:
+            <textarea
+                value={studentReview.teacherComment}
+                name="teacherComment"
+                onChange={
+                  e => handleReviewChange(e.target.name, e.target.value)
+                }
+            ></textarea>
+          </label>
+          <button type="submit">Add Assignment</button>
+        </form>
+        )
       </div>
     </>
   );

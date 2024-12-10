@@ -45,6 +45,25 @@ router.post("/getReviews", async (req, res) => {
     res.send(results).status(200);
 });
 
+router.post("/setReview", async (req, res) => {
+    const body = await req.body;
+    const {childID, stars, teacherName, teacherComment} = body;
+    try {
+        let newReview = {
+            childID: Number(childID),
+            stars: Number(stars),
+            comment: teacherComment,
+            teacherName: teacherName,
+        };
+        let collection = await db.collection("Reviews");
+        let result = await collection.insertOne(newReview);
+        res.send(result).status(204);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error adding record")
+    }
+});
+
 router.post("/login", async (req, res) => {
     const body = await req.body;
     const {username, pass, level} = body;
