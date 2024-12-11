@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../../src/components/Navbar.jsx';
-import '../../css/acc/parent/parent.css'; 
+import '../../css/acc/parent/parent.css';
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Parent() {
+    const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
 
     // Simulating fetching notifications from a predefined array
@@ -13,8 +16,9 @@ export default function Parent() {
     ];
 
     useEffect(() => {
-        // Setting notifications from the predefined array
-        setNotifications(notificationsData);
+        if (Cookies.get("Level") != "Parent" && Cookies.get("Locked") === "true") {
+            navigate('/ParentSign')
+        }
     }, []);
 
     return (

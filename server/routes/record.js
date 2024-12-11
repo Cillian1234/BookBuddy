@@ -1,21 +1,16 @@
 import express from "express";
-import session from "express-session";
+import Cookies from "js-cookie";
 import db from "../db/connection.js" // DB connection
 import {ObjectId} from "mongodb";
 
 const router = express.Router(); // Router defines routes
-router.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-    })
-)
+
 
 // Get records
 router.get("/", async (req, res) => {
     let collection = await db.collection("Users");
     let results = await collection.find({}).toArray();
+
 
     res.send(results).status(200);
 });
@@ -39,7 +34,7 @@ router.post("/getReviews", async (req, res) => {
 
     let collection = await db.collection("Reviews");
     let results = await collection.find({
-        childID: childID,
+        childID
     }).toArray();
 
     res.send(results).status(200);
@@ -53,10 +48,41 @@ router.post("/setReview", async (req, res) => {
             childID: Number(childID),
             stars: Number(stars),
             comment: teacherComment,
-            teacherName: teacherName,
+            teacherName,
         };
         let collection = await db.collection("Reviews");
         let result = await collection.insertOne(newReview);
+        res.send(result).status(204);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error adding record")
+    }
+});
+
+router.post("/getAssignments", async (req, res) => {
+    const body = await req.body;
+    const {childID} = body;
+
+    let collection = await db.collection("Assignments");
+    let results = await collection.find({
+        assignedTo: childID
+    }).toArray();
+
+    res.send(results).status(200);
+});
+
+router.post("/setAssignment", async (req, res) => {
+    const body = await req.body;
+    const {assignedTo, assignmentContent, teacherName, dueDate} = body;
+    try {
+        let newAssignment = {
+            assignedTo: Number(assignedTo),
+            assignmentContent,
+            teacherName,
+            dueDate,
+        };
+        let collection = await db.collection("Assignments");
+        let result = await collection.insertOne(newAssignment);
         res.send(result).status(204);
     } catch (err) {
         console.error(err);
@@ -76,27 +102,32 @@ router.post("/login", async (req, res) => {
     }
     let result = await collection.findOne(query)
     if (!result) {
-        res.sendStatus(404)
+        res.send(null).status(404)
     } else {
-
-        res.send("Login successful!").status(200)
+        res.send(result._id).status(200)
     }
 })
+
+router.post("/getUserInfo", async (req, res) => {
+    const body = await req.body;
+    const {_id} = body;
+
+    let collection = await db.collection("Users");
+    let results = await collection.find({
+        _id: new ObjectId(_id),
+    }).toArray();
+
+    res.send(results).status(200);
+});
 
 // TODO: https://www.geeksforgeeks.org/how-to-handle-sessions-in-express/ Continue with sessions
 
 router.get("/setSession", async (req, res) => {
-    req.session.user = {id: "1", username: "test"}
-    res.send("Session is logged in")
+
 })
 
 router.get("/getSession", async (req, res) => {
-    if (req.session.user) {
-        res.send('Session data: '
-            + JSON.stringify(req.session.user));
-    } else {
-        res.send('No session data found');
-    }
+
 })
 
 // Create record

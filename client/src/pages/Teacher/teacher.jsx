@@ -1,8 +1,14 @@
 import Navbar from '../../../src/components/Navbar.jsx';
 import '../../css/acc/teacher/teacher.css';
-import React, { useState, useEffect } from 'react';
+import ReviewForm from './teacherComponents/ReviewForm.jsx'
+import AssignmentForm from './teacherComponents/AssignmentForm.jsx'
+import { useState, useEffect } from 'react';
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function Teacher() {
+  const navigate = useNavigate();
+  const [teacherName, setTeacherName] = useState("Test");
   const [classrooms, setClassrooms] = useState([
     {
       name: 'CODE CLASS 1',
@@ -36,33 +42,34 @@ export default function Teacher() {
   const [selectedClassroom, setSelectedClassroom] = useState(classrooms[0]);
   const [selectedGroup, setSelectedGroup] = useState(classrooms[0].groups[0]);
   const [selectedStudent, setSelectedStudent] = useState(classrooms[0].groups[0].students[0]);
-  const [newAssignment, setNewAssignment] = useState({ title: '', dueDate: '' });
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [assignment, setAssignment] = useState({
+    assignedTo: "",
+    assignmentContent: "",
+    teacherName: "",
+    dueDate: "",
+  });
+
   const [studentReview, setStudentReview] = useState({
     childID: "",
     stars: "",
     teacherName: "",
     teacherComment: "",
   });
+  let field, changedValue;
 
   useEffect(() => {
-    if (!selectedClassroom && classrooms.length > 0) {
-      setSelectedClassroom(classrooms[0]);
+    if (Cookies.get("Level") != "Teacher" && Cookies.get("Locked") === "true") {
+      navigate('/TeachSign')
     }
-    if (selectedClassroom && !selectedGroup && selectedClassroom.groups.length > 0) {
-      setSelectedGroup(selectedClassroom.groups[0]);
-    }
-    if (selectedGroup && !selectedStudent && selectedGroup.students.length > 0) {
-      setSelectedStudent(selectedGroup.students[0]);
-    }
-  }, [classrooms, selectedClassroom, selectedGroup, selectedStudent]);
+    getTeacherName()
+  }, []);
 
   function handleReviewChange(field, changedValue) {
     setStudentReview(prevReview => ({
       ...prevReview,
       [field]: changedValue,
     }));
-    console.log(studentReview);
   }
 
   async function handleReviewSubmit(event) {
@@ -77,22 +84,27 @@ export default function Teacher() {
         ...studentReview
       }),
     })
-        .then((res) => res.json())
-        .then((data) => {console.log(data)})
   }
 
-  const handleAddAssignment = () => {
-    setClassrooms(prevClassrooms =>
-      prevClassrooms.map(classroom =>
-        classroom.name === selectedClassroom.name
-          ? {
-              ...classroom,
-              assignments: [...classroom.assignments, newAssignment],
-            }
-          : classroom
-      )
-    );
-    setNewAssignment({ title: '', dueDate: '' });
+  function handleAssignmentChange(field, changedValue) {
+    setAssignment(prevAssignment => ({
+      ...prevAssignment,
+      [field]: changedValue,
+    }));
+  };
+
+  async function handleAssignmentSubmit(event) {
+    event.preventDefault();
+
+    await fetch(`http://localhost:8080/record/setAssignment/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        ...assignment,
+      }),
+    })
   };
 
   const handleAddStudent = (groupName, student) => {
@@ -124,12 +136,33 @@ export default function Teacher() {
     setEditingStudent(selectedGroup.students.find(student => student.name === studentName));
   };
 
+  function getTeacherName() {
+    const _id = Cookies.get("UID")
+    fetch(`http://localhost:8080/record/getUserInfo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        _id
+      }),
+    })
+        .then(res => res.json())
+        .then(data => {
+          setAssignment((prevAssignment) => ({
+            ...prevAssignment,
+            teacherName: `${data[0].fName} ${data[0].sName}`,
+          }));
+        })
+  }
+
   return (
     <>
       <Navbar />
       <div className="dashboard-container">
         <div className="teacher-info">
-          {/*//TODO: ADD THE TEACHERS IMAGE AND NAME UPLOADED FROM DATABASE */}
+          {/*//TODO: ADD THE TEACHERS IMAGE UPLOADED FROM DATABASE */}
+          {assignment.teacherName}
         </div>
         <div className="notifications-section">
           <h2>Notifications</h2>
@@ -169,103 +202,18 @@ export default function Teacher() {
             </div>
           ))}
         </div>
-        <div className="assignments-section">
-          <h2>Assignments</h2>
-          <label>
-            Classroom:
-            <select
-              onChange={e => {
-                const selectedClass = classrooms.find(c => c.name === e.target.value);
-                setSelectedClassroom(selectedClass);
-                setSelectedGroup(selectedClass.groups[0]);
-              }}
-            >
-              {classrooms.map((classroom, idx) => (
-                <option key={idx} value={classroom.name}>{classroom.name}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Group:
-            <select
-              onChange={e => setSelectedGroup(selectedClassroom.groups.find(g => g.name === e.target.value))}
-              value={selectedGroup.name}
-            >
-              {selectedClassroom.groups.map((group, idx) => (
-                <option key={idx} value={group.name}>{group.name}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Task:
-            <input
-              type="text"
-              value={newAssignment.title}
-              onChange={e => setNewAssignment({ ...newAssignment, title: e.target.value })}
-            />
-          </label>
-          <label>
-            Due Date:
-            <input
-              type="date"
-              value={newAssignment.dueDate}
-              onChange={e => setNewAssignment({ ...newAssignment, dueDate: e.target.value })}
-            />
-          </label>
-          <button onClick={handleAddAssignment}>Add Assignment</button>
-        </div>
-        <form className="student-review" onSubmit={handleReviewSubmit}>
-          <h3>Review student name</h3> /* TODO: add selected student name here */
-          <label>
-            StudentID:
-            <input
-                type="text"
-                name="childID"
-                value={studentReview.studentID}
-                onChange={
-                  e => handleReviewChange(e.target.name, e.target.value)
-                }
-                max={5}
-                min={1}
-            />
-          </label>
-          <label>
-            Stars:
-            <input
-                type="number"
-                name="stars"
-                value={studentReview.stars}
-                onChange={
-                  e => handleReviewChange(e.target.name, e.target.value)
-                }
-                max={5}
-                min={1}
-            />
-          </label>
-          <label>
-            Teacher name: /* TODO: get teacher name from sessions */
-            <input
-                type="text"
-                name="teacherName"
-                value={studentReview.teacherName}
-                onChange={
-                  e => handleReviewChange(e.target.name, e.target.value)
-                }
-            ></input>
-          </label>
-          <label>
-            Comment:
-            <textarea
-                value={studentReview.teacherComment}
-                name="teacherComment"
-                onChange={
-                  e => handleReviewChange(e.target.name, e.target.value)
-                }
-            ></textarea>
-          </label>
-          <button type="submit">Add Assignment</button>
-        </form>
-        )
+
+        <AssignmentForm
+          assignment={assignment}
+          handleAssignmentChange={handleAssignmentChange}
+          handleAssignmentSubmit={handleAssignmentSubmit}
+        />
+
+        <ReviewForm
+          studentReview={studentReview}
+          handleReviewChange={handleReviewChange}
+          handleReviewSubmit={handleReviewSubmit}
+        />
       </div>
     </>
   );

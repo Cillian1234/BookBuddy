@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 //Importing the navbar
 import Navbar from '../../../src/components/Navbar.jsx';
 //Importing the images used to link to their page
@@ -8,8 +8,16 @@ import bookHWB from '../../assets/Images by AJ/bookHWB.png';
 import '../../css/acc/child/child.css'; 
 //Importing image for the background
 import bckgrdImg from '../../assets/Images by AJ/chBckgrd.png';
+import {useEffect} from "react";
+import Cookies from "js-cookie";
 
 export default function Child() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (Cookies.get("Level") !== "Child" && Cookies.get("Locked") === "true") {
+            navigate('/ChildSign')
+        }
+    }, []);
     return (
     <> 
     <Navbar />

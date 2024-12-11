@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/login/parentSign.css';
 import twoStars from '../../assets/Images by AJ/YellowStars.png';
+import Cookies from "js-cookie";
 
 //TODO: ADD BOOKS IMAGE
 // import books from '../../assets/Images by AJ/';
@@ -29,10 +30,13 @@ const ParentSign = ({ onLogin }) => {
           username, pass, level
         }),
       })
-          .then(res => {
-            if (!res.ok) {
+          .then(res => res.json())
+          .then(data => {
+            if (!data) {
               setErrMessage(errMessage => !errMessage);
             } else {
+              Cookies.set("UID", data, {expires: 1});
+              Cookies.set("Level", "Parent", {expires: 1});
               navigate('/parent');
             }
           })
@@ -45,6 +49,8 @@ const ParentSign = ({ onLogin }) => {
 
   return (
     <div className="parentSign-con">
+      <Link to={`/`}>Home</Link>
+
       <form onSubmit={handleSubmit} className="form-p">
         <h1>Parent Sign In</h1>
         <div className="img-Con-P">
