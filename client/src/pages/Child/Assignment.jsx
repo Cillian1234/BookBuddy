@@ -6,19 +6,16 @@ import starRevB from '../../assets/Images by AJ/starRevB.png';
 import home from '../../assets/Images by AJ/home.png';
 // Importing the CSS files from the CSS folder
 import '../../css/acc/child/assign.css';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 export default function Assignment() {
   // State for assignments
   const [assignments, setAssignments] = useState([
     {
-      title: 'Assignment 1',
-      details: 'Complete the coding exercise on arrays',
-    },
-    {
-      title: 'Assignment 2',
-      details: 'Write an essay on the importance of coding',
-    },
+      assignmentContent: "",
+      teacherName: "",
+      dueDate: "",
+    }
   ]);
 
   // State for comments from teachers
@@ -32,6 +29,25 @@ export default function Assignment() {
       comment: 'Never forget to code! >:PPP',
     },
   ]);
+  let childID = 1; /* TODO: get from session */
+
+  function getAssignments(childID) {
+    fetch(`http://localhost:8080/record/getAssignments/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        childID
+      }),
+    })
+        .then((res) => res.json())
+        .then((data) => {setAssignments(data)})
+  }
+
+  useEffect(() => {
+    getAssignments(childID);
+  }, []);
 
   return (
     <> 
@@ -47,8 +63,9 @@ export default function Assignment() {
                   Upload Homework
                 </label>
                 <div className="assignment-details">
-                  <h3>{assignment.title}</h3>
-                  <p>{assignment.details}</p>
+                  <h3>Given by: {assignment.teacherName}</h3>
+                  <p>To do: {assignment.assignmentContent}</p>
+                  <p>Due: {assignment.dueDate}</p>
                 </div>
               </li>
             ))}

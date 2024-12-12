@@ -16,7 +16,7 @@ export default function Review() {
   const childID = 1; // TODO: Get child ID from logged in sessions
 
   useEffect(() => {
-    getReviews(1)
+    getReviews(childID)
   }, []);
 
   function getReviews(childID) {

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/login/childSign.css';
 import childGP from '../../assets/Images by AJ/GreenPencil.png';
 import dengBackpack from '../../assets/Images by AJ/DengBackpack.png';
 import happyBlocks from '../../assets/Images by AJ/HappyBlocks.png';
+import Cookies from "js-cookie";
 
 const ChildSign = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -27,10 +28,13 @@ const ChildSign = ({ onLogin }) => {
           username, pass, level
         }),
       })
-          .then(res => {
-            if (!res.ok) {
+          .then(res => res.json())
+          .then(data => {
+            if (!data) {
               setErrMessage(errMessage => !errMessage);
             } else {
+              Cookies.set("UID", data, {expires: 1});
+              Cookies.set("Level", "Child", {expires: 1});
               navigate('/child');
             }
           })
@@ -43,6 +47,8 @@ const ChildSign = ({ onLogin }) => {
 
   return (
     <div className="cSign-Con">
+      <Link to={`/`}>Home</Link>
+
       <form onSubmit={handleSubmit} className="form">
         <h1 id="stu-Sign">Student Sign In</h1>
         <div className="img-Con">

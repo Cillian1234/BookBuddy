@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/login/teachSign.css';
 import Login from '../../../../server/loginLogic/Login.js'
 import Diamonds from '../../assets/Images by AJ/YellowSparkle.png';
+import Cookies from "js-cookie";
 
 // TODO: ADD BOOKS IMAGE
 // import Books from '../../assets/Images by AJ/.png';
@@ -30,10 +31,13 @@ const TeachSign = ({ onLogin }) => {
           username, pass, level
         }),
       })
-          .then(res => {
-            if (!res.ok) {
+          .then(res => res.json())
+          .then(data => {
+            if (!data) {
               setErrMessage(errMessage => !errMessage);
             } else {
+              Cookies.set("UID", data, {expires: 1});
+              Cookies.set("Level", "Teacher", {expires: 1});
               navigate('/teacher');
             }
           })
@@ -46,6 +50,8 @@ const TeachSign = ({ onLogin }) => {
 
   return (
     <div className="TeachSign-con">
+      <Link to={`/`}>Home</Link>
+
       <form onSubmit={handleSubmit} className="form-t">
         <h1 id="TeachSign-h1">Teacher Sign In</h1>
         <div className="img-Con-T">

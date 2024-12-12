@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Importing React and useState hook
+import React, {useEffect, useState} from 'react'; // Importing React and useState hook
 import DengRead from './assets/Images by AJ/DengReadingBook.jpg'; // Importing images
 import teachB from './assets/Images by AJ/BluePencil.png';
 import childB from './assets/Images by AJ/YellowPencil.png';
@@ -8,10 +8,12 @@ import { Outlet } from "react-router-dom";
 import yellowStars from './assets/Images by AJ/YellowStars.png';
 import '../main.css'; // Importing CSS file
 import Navbar from './components/Navbar'; // Importing Navbar component
-import BarcodeScannerComponent from 'react-qr-barcode-scanner'; // Importing Barcode Scanner component
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
+import Cookies from "js-cookie"; // Importing Barcode Scanner component
 
 function App() {
-  const [barcodeResult, setBarcodeResult] = useState('No result'); // Setting initial state for barcode result
+    const [barcodeResult, setBarcodeResult] = useState('No result'); // Setting initial state for barcode result
+    const [locked, setLocked] = useState(true);
 
   // Function to handle barcode scan
   const handleScan = (err, result) => {
@@ -22,25 +24,20 @@ function App() {
     }
   };
 
-  // Function to handle login
-  const handleLogin = (role) => {
-    console.log(`Logged in as ${role}`);
-    // TODO: Add any additional login logic here
-  };
-    async function setSession() {
-        await fetch("http://localhost:8080/record/setSession")
-        .then((res) => console.log(res.text()))
-    }
+  function toggleLockedPages() {
+      setLocked(!locked);
+      Cookies.set("Locked", locked);
+  }
 
-    async function getSession() {
-        await fetch("http://localhost:8080/record/getSession")
-            .then((res) => console.log(res.text()))
-    }
+  useEffect(() => {
+      Cookies.set("Locked", locked);
+  })
 
   return (
     <>
       <Navbar /> {/* Rendering Navbar */}
       <div className="main-container">
+          <button onClick={toggleLockedPages}>{locked ? "Disable required login level" : "Enable required login level"}</button>
         <img src={yellowStars} className="stars-top-left" alt="Yellow Stars Top Left" /> {/* Top left stars image */}
         <div className="header">
           <img src={DengRead} className="logo" alt="Hippo reading" /> {/* Logo image */}
@@ -65,8 +62,6 @@ function App() {
 
       <h1>Book Buddy!</h1>
         <div className="card">
-            <button onClick={setSession}>Set</button>
-            <button onClick={getSession}>Get</button>
             <p>
                 The beginning.
             </p>
