@@ -120,6 +120,18 @@ router.post("/getUserInfo", async (req, res) => {
     res.send(results).status(200);
 });
 
+router.post("/getClassroom", async (req, res) => {
+    const body = await req.body;
+    const {_id} = body;
+
+    let collection = await db.collection("Classrooms");
+    let results = await collection.find({
+        teacherID: _id,
+    }).toArray();
+
+    res.send(results).status(200);
+});
+
 // TODO: https://www.geeksforgeeks.org/how-to-handle-sessions-in-express/ Continue with sessions
 
 router.get("/setSession", async (req, res) => {
