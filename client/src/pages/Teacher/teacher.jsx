@@ -26,6 +26,7 @@ export default function Teacher() {
     assignmentContent: "",
     teacherName: "",
     dueDate: "",
+    submitted: false,
   }); // Construct for database query
 
   const [studentReview, setStudentReview] = useState({

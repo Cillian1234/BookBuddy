@@ -92,6 +92,21 @@ router.post("/setAssignment", async (req, res) => {
     }
 });
 
+router.post("/updateAssignment", async (req, res) => {
+    const body = await req.body;
+    const {_id} = body;
+
+    let collection = await db.collection("Assignments");
+    let filter = {_id}
+    let update = {$set: {"submitted": true}}
+    let results = await collection.updateOne(
+        { _id: new ObjectId(_id) },
+        { $set: { submitted: true } }
+    );
+
+    res.send(results).status(200);
+});
+
 router.post("/AddToClass", async (req, res) => {
     const body = await req.body;
     const {teacherID, studentName, studentID} = body;

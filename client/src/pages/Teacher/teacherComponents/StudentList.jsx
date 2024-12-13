@@ -35,7 +35,7 @@ export default function StudentList(props) {
 
 function createClassroomAssignmentListElement() {
     return assignments.map((Assignment, key) => (
-        <li key={key}>{Assignment.assignmentContent} - Due: {Assignment.dueDate}</li>
+        <li key={key}>{Assignment.assignmentContent} - Due: {Assignment.dueDate} - Submitted: {Assignment.submitted ? "Yes!" : "no :("}</li>
     ))
 }
 

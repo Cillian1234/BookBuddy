@@ -32,6 +32,19 @@ export default function Assignment() {
   ]);
   const childID = Cookies.get("UID")
 
+  function submitAssignment(_id) {
+    fetch(`http://localhost:8080/record/updateAssignment/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        _id
+      }),
+    })
+    setTeacherComments("change")
+  }
+
   function getAssignments(childID) {
     fetch(`http://localhost:8080/record/getAssignments/`, {
       method: 'POST',
@@ -59,14 +72,17 @@ export default function Assignment() {
           <ul className="assignment-list">
             {assignments.map((assignment, index) => (
               <li key={index} className="assignment-item">
-                <label className="upload-label">
-                  <input type="file" className="upload-btn"/>
-                  Upload Homework
-                </label>
+                {!assignment.submitted &&
+                  <label className="upload-label">
+                    <input type="button" className="upload-btn" onClick={(event) => submitAssignment(assignment._id)}/>
+                    Upload Homework
+                  </label>
+                }
                 <div className="assignment-details">
                   <h3>Given by: {assignment.teacherName}</h3>
                   <p>To do: {assignment.assignmentContent}</p>
                   <p>Due: {assignment.dueDate}</p>
+                  <p>Submitted: {assignment.submitted ? "Yes!" : "no :("}</p>
                 </div>
               </li>
             ))}

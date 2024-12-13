@@ -91,7 +91,7 @@ function App() {
             height={500}
             onUpdate={(err, result) => handleScan(err, result)} // Handling barcode scanner
           />
-          <p>{barcodeResult.startsWith('978') || barcodeResult.startsWith('979') ? `ISBN: ${barcodeResult}` : barcodeResult}</p> {/* Displaying scanned result, checking for ISBN prefixes!! */}
+          <h1><bold>{barcodeResult.startsWith('978') || barcodeResult.startsWith('979') ? `ISBN: ${barcodeResult}` : barcodeResult}</bold></h1> {/* Displaying scanned result, checking for ISBN prefixes!! */}
           {/* The '?' basically checks if the condition is true or false. If true displays `ISBN: ${barcodeResult}` ':' is like otherwise, false displays barcodeResult */}
         </div>
       )}
