@@ -3,37 +3,44 @@ import '../../css/acc/teacher/teacher.css';
 import ReviewForm from './teacherComponents/ReviewForm.jsx'
 import AssignmentForm from './teacherComponents/AssignmentForm.jsx'
 import StudentList from './teacherComponents/StudentList.jsx'
+import AddToClassForm from "./teacherComponents/AddToClassForm.jsx";
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 
 export default function Teacher() {
-  const navigate = useNavigate();
-  const [teacherName, setTeacherName] = useState("");
-  const [classrooms, setClassrooms] = useState();
+  const navigate = useNavigate()
+  const _id = Cookies.get("UID")
+  let teacherName;
+  let field, changedValue
 
-  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [classrooms, setClassrooms] = useState();
+  const [classAdd, setClassAdd] = useState(
+      {
+        teacherID: _id,
+        studentName: "",
+        studentID:""
+      }
+  );
   const [assignment, setAssignment] = useState({
     assignedTo: "",
     assignmentContent: "",
-    teacherName: "",
+    teacherName,
     dueDate: "",
   });
 
   const [studentReview, setStudentReview] = useState({
     childID: "",
     stars: "",
-    teacherName: "",
+    teacherName,
     teacherComment: "",
   });
-  let field, changedValue;
-  const _id = Cookies.get("UID")
 
   useEffect(() => {
     if (Cookies.get("Level") != "Teacher" && Cookies.get("Locked") === "true") {
       navigate('/TeachSign')
     }
-    getTeacherName()
+    teacherName = getTeacherName()
     getClassroom()
   }, []);
 
@@ -79,8 +86,8 @@ export default function Teacher() {
     })
   };
 
-  async function getClassroom() {
-    await fetch(`http://localhost:8080/record/getClassroom/`, {
+   function getClassroom() {
+     fetch(`http://localhost:8080/record/getClassroom/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Indicate the type of data being sent
@@ -95,8 +102,25 @@ export default function Teacher() {
         })
   }
 
-  const handleAddStudent = () => {
-    // TODO: add student
+  function handleClassAddChange(field, changedValue) {
+    setClassAdd(prevStudent => ({
+      ...prevStudent,
+      [field]: changedValue,
+    }));
+  };
+
+  async function handleClassAddSubmit(event) {
+    event.preventDefault();
+
+    await fetch(`http://localhost:8080/record/AddToClass/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({
+        ...classAdd,
+      }),
+    })
   };
 
   const handleSelectStudent = (studentName) => {
@@ -116,10 +140,7 @@ export default function Teacher() {
     })
       .then(res => res.json())
       .then(data => {
-        setAssignment((prevAssignment) => ({
-          ...prevAssignment,
-          teacherName: `${data[0].fName} ${data[0].sName}`,
-        }));
+          return teacherName = `${data[0].fName} ${data[0].sName}`
       })
   }
 
@@ -149,6 +170,12 @@ export default function Teacher() {
             />
           }
         </div>
+
+        <AddToClassForm
+          studentInfo={classAdd}
+          handleClassAddChange={handleClassAddChange}
+          handleClassAddSubmit={handleClassAddSubmit}
+        />
 
         <AssignmentForm
           assignment={assignment}

@@ -1,16 +1,18 @@
 import express from "express";
-import Cookies from "js-cookie";
 import db from "../db/connection.js" // DB connection
 import {ObjectId} from "mongodb";
 
 const router = express.Router(); // Router defines routes
 
+/*
+ TODO: Change all variable names to match field in DB so queries can be written as
+ Query = {teacherID}
+*/
 
 // Get records
 router.get("/", async (req, res) => {
     let collection = await db.collection("Users");
     let results = await collection.find({}).toArray();
-
 
     res.send(results).status(200);
 });
@@ -45,7 +47,7 @@ router.post("/setReview", async (req, res) => {
     const {childID, stars, teacherName, teacherComment} = body;
     try {
         let newReview = {
-            childID: Number(childID),
+            childID,
             stars: Number(stars),
             comment: teacherComment,
             teacherName,
@@ -76,13 +78,36 @@ router.post("/setAssignment", async (req, res) => {
     const {assignedTo, assignmentContent, teacherName, dueDate} = body;
     try {
         let newAssignment = {
-            assignedTo: Number(assignedTo),
+            assignedTo,
             assignmentContent,
             teacherName,
             dueDate,
         };
         let collection = await db.collection("Assignments");
         let result = await collection.insertOne(newAssignment);
+        res.send(result).status(204);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error adding record")
+    }
+});
+
+router.post("/AddToClass", async (req, res) => {
+    const body = await req.body;
+    const {teacherID, studentName, studentID} = body;
+    try {
+        let filter = {teacherID}
+        let query = {
+            $push: {
+                students: {
+                    name: studentName,
+                    studentID: studentID,
+                    notifications: 0
+                }
+            }
+        }
+        let collection = await db.collection("Classrooms");
+        let result = await collection.updateOne(filter, query);
         res.send(result).status(204);
     } catch (err) {
         console.error(err);
