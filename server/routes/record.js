@@ -157,6 +157,18 @@ router.post("/getClassroom", async (req, res) => {
     res.send(results).status(200);
 });
 
+router.post("/getClassAssignments", async (req, res) => {
+    const body = await req.body;
+    const {_id} = body;
+
+    let collection = await db.collection("Assignments");
+    let results = await collection.find({
+        assignedTo: _id
+    }).toArray();
+
+    res.send(results).status(200);
+});
+
 // TODO: https://www.geeksforgeeks.org/how-to-handle-sessions-in-express/ Continue with sessions
 
 router.get("/setSession", async (req, res) => {
@@ -214,6 +226,19 @@ router.delete("/:id", async (req, res) => {
     try {
         const query = {_id: new ObjectId(req.params.id)}
         const collection = await db.collection("Users");
+        let result = await collection.deleteOne(query)
+        res.send(result).status(200);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error deleting record")
+    }
+})
+
+// TODO: make delete user entry in classroom student table
+router.delete("/deleteStudent/:id", async (req, res) => {
+    try {
+        const query = {_id: new ObjectId(req.params.id)}
+        const collection = await db.collection("Classrooms");
         let result = await collection.deleteOne(query)
         res.send(result).status(200);
     } catch (err) {

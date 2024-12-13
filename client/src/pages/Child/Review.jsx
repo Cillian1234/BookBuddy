@@ -8,12 +8,12 @@ import star from '../../assets/Images by AJ/1Star.png'; // Importing the star im
 // Importing CSS file for styling
 import '../../css/acc/child/rev.css'; 
 import React, {useEffect, useState} from 'react';
-import * as http from "node:http";
+import Cookies from "js-cookie";
 
 export default function Review() {
   // State to store reviews with teacher's name, star ratings, and comments
   const [reviews, setReviews] = useState([]);
-  const childID = 1; // TODO: Get child ID from logged in sessions
+  const childID = Cookies.get("UID")
 
   useEffect(() => {
     getReviews(childID)

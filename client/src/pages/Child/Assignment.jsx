@@ -7,6 +7,7 @@ import home from '../../assets/Images by AJ/home.png';
 // Importing the CSS files from the CSS folder
 import '../../css/acc/child/assign.css';
 import React, {useEffect, useState} from 'react';
+import Cookies from "js-cookie";
 
 export default function Assignment() {
   // State for assignments
@@ -29,7 +30,7 @@ export default function Assignment() {
       comment: 'Never forget to code! >:PPP',
     },
   ]);
-  let childID = 1; /* TODO: get from session */
+  const childID = Cookies.get("UID")
 
   function getAssignments(childID) {
     fetch(`http://localhost:8080/record/getAssignments/`, {
@@ -75,12 +76,13 @@ export default function Assignment() {
         <div className="teacher-comments-section">
           <h2>Teacher Comments</h2>
           <ul className="teacher-comments">
-            {teacherComments.map((comment, index) => (
-              <li key={index} className="comment-item">
-                <h3>{comment.teacherName}</h3>
-                <p>{comment.comment}</p>
-              </li>
-            ))}
+            {/*TODO: decide what to do with comments? too similar to reviews?*/}
+            {/*{teacherComments.map((comment, index) => (*/}
+            {/*  <li key={index} className="comment-item">*/}
+            {/*    <h3>{comment.teacherName}</h3>*/}
+            {/*    <p>{comment.comment}</p>*/}
+            {/*  </li>*/}
+            {/*))}*/}
           </ul>
         </div>
       </div>

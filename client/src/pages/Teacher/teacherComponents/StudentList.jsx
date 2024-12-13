@@ -1,31 +1,54 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function StudentList(props) {
-    const [classroom, setClassroom] = useState(...props.classroom);
+    const [students, setStudents] = useState(props.classroom[0].students);
+    const [assignments, setAssignments] = useState(props.classAssignments);
+    const [ready, setReady] = useState(false);
+    const [assignmentList, setAssignmentList] = useState();
+
+    useEffect(() => {
+        setAssignments(props.classAssignments);
+        setStudents(props.classroom[0].students);
+
+        if (students && assignments) {
+            setAssignmentList(createClassroomAssignmentListElement())
+            setReady(!ready);
+        }
+    }, [props.classAssignments, props.classroom[0].students]);
 
 
     const createStudentListElement = (
-        classroom.students.map((Student, key) => (
-            <li key={key}>{Student.name} {Student.studentID}</li>
-        ))
-    )
+        students.map((Student, key) => (
+            <li key={key}>
+                {Student.name} {Student.studentID}
+                {/*TODO: make delete user entry in classroom student table*/}
+                {/*<button*/}
+                {/*    color="red"*/}
+                {/*    type="button"*/}
+                {/*    onClick={() => {*/}
+                {/*        props.deleteStudent(Student.studentID);*/}
+                {/*    }}*/}
+                {/*>Delete</button>*/}
+            </li>
+))
+)
 
-    const createClassroomAssignmentListElement = (
-        classroom.assignments.map((Assignment, key) => (
-            <li key={key}>{Assignment.name}</li>
-        ))
-    )
+function createClassroomAssignmentListElement() {
+    return assignments.map((Assignment, key) => (
+        <li key={key}>{Assignment.assignmentContent} - Due: {Assignment.dueDate}</li>
+    ))
+}
 
-    return (
-        <div>
-            <h3>Students</h3>
-            <ul>
-                {createStudentListElement}
-            </ul>
-            <h3>Assignments</h3>
-            <ul>
-                {createClassroomAssignmentListElement}
-            </ul>
-        </div>
-    )
+return (
+    <div>
+        <h3>Students</h3>
+        <ul>
+            {ready ? createStudentListElement : <p>Loading</p>}
+        </ul>
+        <h3>Class assignments</h3>
+        <ul>
+            {ready ? assignmentList : <p>Loading</p>}
+        </ul>
+    </div>
+)
 }

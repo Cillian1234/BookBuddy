@@ -25,15 +25,6 @@ export default function ReviewForm({studentReview, handleReviewChange, handleRev
                 />
             </label>
             <label>
-                Teacher name: /* TODO: get teacher name from sessions */
-                <input
-                    type="text"
-                    name="teacherName"
-                    value={studentReview.teacherName}
-                    onChange={event => handleReviewChange(event.target.name, event.target.value)}
-                ></input>
-            </label>
-            <label>
                 Comment:
                 <textarea
                     value={studentReview.teacherComment}
