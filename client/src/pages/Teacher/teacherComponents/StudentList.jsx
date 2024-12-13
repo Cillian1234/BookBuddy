@@ -1,56 +1,54 @@
 import {useEffect, useState} from "react";
 
 export default function StudentList(props) {
-    const [data, setData] = useState(props.classroom);
-    const [studentInfo, setStudentInfo] = useState([]);
+    const [students, setStudents] = useState(props.classroom[0].students);
+    const [assignments, setAssignments] = useState(props.classAssignments);
+    const [ready, setReady] = useState(false);
+    const [assignmentList, setAssignmentList] = useState();
 
-    useEffect(async () => {
-        await getStudentInfo();
-    })
+    useEffect(() => {
+        setAssignments(props.classAssignments);
+        setStudents(props.classroom[0].students);
 
-    function getStudentInfo() {
-        data[0].students.map((Student, key) => (
-            fetch(`http://localhost:8080/record/getUserInfo`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', // Indicate the type of data being sent
-                },
-                body: JSON.stringify({
-                    _id: Student.studentID
-                }),
-            })
-                .then(res => res.json())
-                .then(data => setStudentInfo((prevData) => ({
-                        ...prevData,
-                        data
-                    })
-                ))
-        ))
-    }
+        if (students && assignments) {
+            setAssignmentList(createClassroomAssignmentListElement())
+            setReady(!ready);
+        }
+    }, [props.classAssignments, props.classroom[0].students]);
+
 
     const createStudentListElement = (
-            studentInfo.map((Student, key) => (
-                <li key={key}>{`${Student.fName} ${Student.sName}`}</li>
-            )),
-            console.log(studentInfo)
-    )
+        students.map((Student, key) => (
+            <li key={key}>
+                {Student.name} {Student.studentID}
+                {/*TODO: make delete user entry in classroom student table*/}
+                {/*<button*/}
+                {/*    color="red"*/}
+                {/*    type="button"*/}
+                {/*    onClick={() => {*/}
+                {/*        props.deleteStudent(Student.studentID);*/}
+                {/*    }}*/}
+                {/*>Delete</button>*/}
+            </li>
+))
+)
 
-    const createClassroomAssignmentListElement = (
-        data[0].assignments.map((Assignment, key) => (
-            <li key={key}>{Assignment.name}</li>
-        ))
-    )
+function createClassroomAssignmentListElement() {
+    return assignments.map((Assignment, key) => (
+        <li key={key}>{Assignment.assignmentContent} - Due: {Assignment.dueDate}</li>
+    ))
+}
 
-    return (
-        <div>
-            <h3>Students</h3>
-            <ul>
-                {createStudentListElement}
-            </ul>
-            <h3>Assignments</h3>
-            <ul>
-                {createClassroomAssignmentListElement}
-            </ul>
-        </div>
-    )
+return (
+    <div>
+        <h3>Students</h3>
+        <ul>
+            {ready ? createStudentListElement : <p>Loading</p>}
+        </ul>
+        <h3>Class assignments</h3>
+        <ul>
+            {ready ? assignmentList : <p>Loading</p>}
+        </ul>
+    </div>
+)
 }

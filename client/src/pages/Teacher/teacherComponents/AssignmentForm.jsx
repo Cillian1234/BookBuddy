@@ -33,15 +33,6 @@ export default function AssignmentForm({ assignment, handleAssignmentChange, han
             {/*    </select>*/}
             {/*</label>*/}
             <label>
-                Teacher Name:
-                <input
-                    type="text"
-                    name="teacherName"
-                    value={assignment.teacherName}
-                    onChange={event => handleAssignmentChange(event.target.name, event.target.value)}
-                />
-            </label>
-            <label>
                 Assigned to (Student, group, class):
                 <input
                     type="text"

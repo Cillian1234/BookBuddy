@@ -3,39 +3,63 @@ import '../../css/acc/teacher/teacher.css';
 import ReviewForm from './teacherComponents/ReviewForm.jsx'
 import AssignmentForm from './teacherComponents/AssignmentForm.jsx'
 import StudentList from './teacherComponents/StudentList.jsx'
+import AddToClassForm from "./teacherComponents/AddToClassForm.jsx";
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 
 export default function Teacher() {
-  const navigate = useNavigate();
-  const [teacherName, setTeacherName] = useState("");
-  const [classrooms, setClassrooms] = useState();
+  const navigate = useNavigate()
+  const _id = Cookies.get("UID")
+  let field, changedValue
 
-  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [teacherName, setTeacherName] = useState(getTeacherName())
+  const [classrooms, setClassrooms] = useState();
+  const [classAssignments, setClassAssignments] = useState();
+  const [classAdd, setClassAdd] = useState({
+    teacherID: _id,
+    studentName: "",
+    studentID:""
+  }); // Construct for database query
   const [assignment, setAssignment] = useState({
     assignedTo: "",
     assignmentContent: "",
     teacherName: "",
     dueDate: "",
-  });
+  }); // Construct for database query
 
   const [studentReview, setStudentReview] = useState({
     childID: "",
     stars: "",
     teacherName: "",
     teacherComment: "",
-  });
-  let field, changedValue;
-  const _id = Cookies.get("UID")
+  }); // Construct for database query
 
-  useEffect(() => {
+  useEffect( () => {
     if (Cookies.get("Level") != "Teacher" && Cookies.get("Locked") === "true") {
       navigate('/TeachSign')
     }
-    getTeacherName()
-    getClassroom()
+    getClassAndAssignments()
   }, []);
+
+  async function getClassAndAssignments() {
+    const classroomData = await getClassroom();
+    await getClassAssignments(classroomData);
+  }
+
+  async function getClassAssignments(classroomData) {
+     const _id = classroomData[0]._id;
+     console.log("Class ID", _id)
+     const response = await fetch(`http://localhost:8080/record/getClassAssignments/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({_id}),
+    })
+      const data = await response.json();
+      setClassAssignments(data)
+  }
 
   function handleReviewChange(field, changedValue) {
     setStudentReview(prevReview => ({
@@ -53,7 +77,8 @@ export default function Teacher() {
         'Content-Type': 'application/json', // Indicate the type of data being sent
       },
       body: JSON.stringify({
-        ...studentReview
+        ...studentReview,
+        teacherName: teacherName
       }),
     })
   }
@@ -63,6 +88,7 @@ export default function Teacher() {
       ...prevAssignment,
       [field]: changedValue,
     }));
+    console.log(teacherName)
   };
 
   async function handleAssignmentSubmit(event) {
@@ -75,37 +101,52 @@ export default function Teacher() {
       },
       body: JSON.stringify({
         ...assignment,
+        teacherName: teacherName
       }),
     })
   };
 
-  async function getClassroom() {
-    await fetch(`http://localhost:8080/record/getClassroom/`, {
+   async function getClassroom() {
+     const response = await fetch(`http://localhost:8080/record/getClassroom/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Indicate the type of data being sent
+      },
+      body: JSON.stringify({_id}),
+    })
+     const data = await response.json();
+     setClassrooms(data)
+     return data;
+  }
+
+  function handleClassAddChange(field, changedValue) {
+    setClassAdd(prevStudent => ({
+      ...prevStudent,
+      [field]: changedValue,
+    }));
+  };
+
+  async function handleClassAddSubmit(event) {
+    event.preventDefault();
+
+    await fetch(`http://localhost:8080/record/AddToClass/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Indicate the type of data being sent
       },
       body: JSON.stringify({
-        _id,
+        ...classAdd,
       }),
     })
-        .then(res => res.json())
-        .then(data => {
-          setClassrooms(data);
-        })
-  }
-
-  const handleAddStudent = () => {
-    // TODO: add student
   };
 
   const handleSelectStudent = (studentName) => {
     // TODO: select student
   };
 
-  function getTeacherName() {
+  async function getTeacherName() {
 
-    fetch(`http://localhost:8080/record/getUserInfo`, {
+    const response = await fetch(`http://localhost:8080/record/getUserInfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Indicate the type of data being sent
@@ -114,13 +155,17 @@ export default function Teacher() {
         _id
       }),
     })
-      .then(res => res.json())
-      .then(data => {
-        setAssignment((prevAssignment) => ({
-          ...prevAssignment,
-          teacherName: `${data[0].fName} ${data[0].sName}`,
-        }));
-      })
+    const data = await response.json();
+    const nameJson = {...data[0]};
+    const name = `${nameJson.fName} ${nameJson.sName}`;
+    setTeacherName(name);
+  }
+
+  // TODO: make delete user entry in classroom student table
+  async function deleteStudent(id) {
+    await fetch(`http://localhost:8080/record/${id}`, {
+      method: "DELETE",
+    });
   }
 
   return (
@@ -129,7 +174,6 @@ export default function Teacher() {
       <div className="dashboard-container">
         <div className="teacher-info">
           {/*//TODO: ADD THE TEACHERS IMAGE UPLOADED FROM DATABASE */}
-          {assignment.teacherName}
         </div>
         <div className="notifications-section">
           <h2>Notifications</h2>
@@ -146,9 +190,17 @@ export default function Teacher() {
           {classrooms &&
             <StudentList
               classroom={classrooms}
+              classAssignments={classAssignments}
+              deleteStudent={deleteStudent}
             />
           }
         </div>
+
+        <AddToClassForm
+          studentInfo={classAdd}
+          handleClassAddChange={handleClassAddChange}
+          handleClassAddSubmit={handleClassAddSubmit}
+        />
 
         <AssignmentForm
           assignment={assignment}
