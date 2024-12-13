@@ -7,7 +7,7 @@ import bookHWB from '../../assets/Images by AJ/bookHWB.png';
 //Importing the css files from css folder
 import '../../css/acc/child/child.css'; 
 //Importing image for the background
-import bckgrdImg from '../../assets/Images by AJ/chBckgrd.png';
+import bckgrdImg from '../../assets/Images by AJ/childbckimg.jpg';
 import {useEffect} from "react";
 import Cookies from "js-cookie";
 

@@ -223,3 +223,7 @@ a span {
   margin: 20px;
   text-align: center;
 }
+
+.barcode-toggle img{
+  width:30%;
+}
