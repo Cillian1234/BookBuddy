@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../css/login/parentSign.css';
 import twoStars from '../../assets/Images by AJ/YellowStars.png';
 import Cookies from 'js-cookie';
-import booksRpile from '../../assets/Images by AJ/booksRpile.png'; // Import the book image
+import booksRpile from '../../assets/Images by AJ/booksRpile.png';
 import home from '../../assets/Images by AJ/bckhome.png';
 
 const ParentSign = ({ onLogin }) => {

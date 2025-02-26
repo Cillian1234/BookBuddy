@@ -1,10 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #294004;
+  background: linear-gradient(135deg, #294004, #6b8e23);
   height: 200vh;
-  color: black;
+  color: #000; /* Black text */
 }
 
 .teacher-info {
@@ -20,6 +27,7 @@
   height: 80px;
   border-radius: 50%;
   margin-right: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .teacher-name {
@@ -28,32 +36,32 @@
 }
 
 .notifications-section {
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  border: 2px solid black;
   position: absolute;
   top: 200px;
-  right: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .notifications-section .notification {
-  background-color: white;
+  background-color: #f0f0f0;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  color: #000; /* Black text */
 }
 
 .classrooms-section {
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  border: 2px solid black;
   margin-top: 330px;
   text-align: center;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .classroom {
@@ -61,6 +69,8 @@
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  color: #000;
 }
 
 .group {
@@ -68,12 +78,17 @@
 }
 
 .group button {
-  background-color: #000000;
+  background-color: #000;
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.group button:hover {
+  background-color: #444;
 }
 
 .group ul {
@@ -88,14 +103,15 @@
   margin: 5px 0;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.group li.selected {
-  background-color: #d9d9d9;
+.group li:hover {
+  background-color: #e0e0e0;
 }
 
 .create-classroom-btn {
-  background-color: #000000;
+  background-color: #000;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -103,22 +119,20 @@
   cursor: pointer;
   font-size: 1rem;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .create-classroom-btn:hover {
-  background-color: #313131;
+  background-color: #444;
 }
 
 .assignments-section {
   margin-top: 20px;
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  border: 2px solid black;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .assignments-section label {
@@ -134,11 +148,12 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: white;
-  color:black;
+  color: black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .assignments-section button {
-  background-color: #000000;
+  background-color: #000;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -146,22 +161,20 @@
   cursor: pointer;
   font-size: 1rem;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .assignments-section button:hover {
-  background-color: #202020;
+  background-color: #444;
 }
 
 .student-review {
   margin-top: 20px;
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  border: 2px solid black;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .student-review h3 {
@@ -181,7 +194,8 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: white;
-  color:black;
+  color: black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .student-review textarea {
