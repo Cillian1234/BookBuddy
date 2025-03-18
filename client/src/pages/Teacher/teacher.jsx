@@ -1,12 +1,16 @@
 import Navbar from '../../../src/components/Navbar.jsx';
 import '../../css/acc/teacher/teacher.css';
+
 import ReviewForm from './teacherComponents/ReviewForm.jsx'
 import AssignmentForm from './teacherComponents/AssignmentForm.jsx'
 import StudentList from './teacherComponents/StudentList.jsx'
 import AddToClassForm from "./teacherComponents/AddToClassForm.jsx";
+
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+
+import cNb from "../../assets/Images by AJ/cupNbook.gif";
 
 export default function Teacher() {
   const navigate = useNavigate()
@@ -174,6 +178,7 @@ export default function Teacher() {
       <Navbar />
       <div className="dashboard-container">
         <div className="teacher-info">
+          <h3>Teachers Profile</h3>
           {/*//TODO: ADD THE TEACHERS IMAGE UPLOADED FROM DATABASE */}
         </div>
         <div className="notifications-section">
@@ -186,6 +191,7 @@ export default function Teacher() {
           {/*  )*/}
           {/*))))}*/}
         </div>
+        <img id="cupNbook" src={cNb} alt="cup and book" />
         <div className="classrooms-section">
           <h2>Classroom</h2>
           {classrooms &&

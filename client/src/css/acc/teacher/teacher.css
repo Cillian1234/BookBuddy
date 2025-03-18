@@ -1,189 +1,129 @@
+/* Styling the dashboard for teacher */
 .dashboard-container {
-  display: flex;
-  flex-direction: column;
+  display: grid; 
+  grid-template-columns: 1fr 1fr; /* Two  columns layout 1fr = 1 fraction*/
+  grid-gap: 20px; /* Space between items */
+  background-color: #202c3b; 
   padding: 20px;
-  background-color: #294004;
-  height: 200vh;
-  color: black;
 }
 
-.teacher-info {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.teacher-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.teacher-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
+/* Style for notification section*/
 .notifications-section {
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
-  position: absolute;
-  top: 200px;
-  right: 20px;
+  background-color: #6685b1;
+  border-radius: 10px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.notifications-section .notification {
-  background-color: white;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
+/* Classrooms section */
 .classrooms-section {
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
-  margin-top: 330px;
-  text-align: center;
-}
-
-.classroom {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.group {
-  margin-top: 10px;
-}
-
-.group button {
-  background-color: #000000;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.group ul {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.group li {
-  background-color: #f9f9f9;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.group li.selected {
-  background-color: #d9d9d9;
-}
-
-.create-classroom-btn {
-  background-color: #000000;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 10px;
-}
-
-.create-classroom-btn:hover {
-  background-color: #313131;
-}
-
-.assignments-section {
-  margin-top: 20px;
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
-  padding: 20px;
-  border-radius: 5px;
+  grid-column: span 2; /* Span across both columns = occupys both grid columns*/
+  background-color: #6685b1; 
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.assignments-section label {
-  display: block;
-  margin-bottom: 10px;
+/* Forms section */
+.teacher-info, .class-form-section, .assignment-form-section, .review-form-section {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.assignments-section input,
-.assignments-section select {
+.classrooms-section  {
+  background-color: #9dbbd6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+
+}
+
+/* Form input fields */
+input[type="text"],
+input[type="date"],
+textarea {
+  background-color: #5a7281;
+  color: #18232e;
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
-  border-radius: 5px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
-  background-color: white;
-  color:black;
+  border-radius: 5px;
 }
 
-.assignments-section button {
-  background-color: #000000;
-  color: white;
-  border: none;
+input[type="number"],
+textarea{
+  background-color: #5a7281;
+  color: #ffffff;
+}
+
+/* Form labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #1d1d1d;
+}
+
+/* Buttons */
+button {
+  background-color: #2c423f; 
+  color: #ffffff;
   padding: 10px 20px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
   margin-top: 10px;
 }
 
-.assignments-section button:hover {
-  background-color: #202020;
+button:hover {
+  background-color: #18232e;
 }
 
-.student-review {
-  margin-top: 20px;
-  background-color: white;
-  border-radius: 10%;
-  border: black;
-  border-width: 5px;
-  border-style: double;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Image styling */
+#cupNbook {
+  width: 310px;
+  border-radius: 10px;
 }
 
-.student-review h3 {
-  margin-top: 0;
-}
-
-.student-review label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.student-review input,
-.student-review textarea {
-  width: 100%;
+/* Style for notifications */
+.notification {
+  background-color: #89a19f;
   padding: 10px;
-  margin-top: 5px;
   border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
-  color:black;
+  margin-bottom: 20px;
+  color: #00332a;
+  width: 100%;
 }
 
-.student-review textarea {
-  height: 100px;
+/* Style for teacher info */
+.teacher-info{
+  background-color: rgb(229, 229, 231);
 }
+
+/* Style for review section */
+.review-form-section, h3{
+  color: #18232e;
+}
+
+/* Fixing form to only style specific ones */
+.assignments-section, .student-review{
+  background-color: #9dbbd6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+

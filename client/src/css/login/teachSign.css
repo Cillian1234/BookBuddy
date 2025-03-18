@@ -9,7 +9,7 @@
   height: 100vh;
 }
 
-#TeachSign-h1{
+#TeachSign-h1 {
   font-size: 16px;
 }
 
@@ -26,6 +26,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  position: relative;
+  flex-direction: column;
 }
 
 .image-box-T {
@@ -35,7 +37,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 20px;
+  position: absolute;
+  top: 10px; /* Adjust this value to position the upload box within the book image */
+  z-index: 1;
+}
+
+.image-box-T img {
+  position: absolute;
+  top: -16px; /* Adjust this value to position the diamond at the top left corner */
+  left: -16px; /* Adjust this value to position the diamond at the top left corner */
+  width: 32px; /* Adjust to your desired size */
+  height: 32px; /* Adjust to your desired size */
 }
 
 .up-lbl-T {
@@ -48,45 +60,17 @@
   display: none;
 }
 
-.img-L-T, .img-R-T {
-  width: 34px;
-  height: 50%;
+.bookBpile-image {
+  width: 300px; /* Make the book image bigger */
+  height: auto;
+  position: relative;
+  bottom: 70px; /* Adjust this value to position the book image correctly */
+  left: 10px;
+  z-index: 0;
 }
 
-.side-img-T {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#home {
+  width: 110px; /* Adjust to your desired width */
+  height: auto; /* Maintain aspect ratio */
 }
 
-.form-group-T {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-label {
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
-}
-
-.sub-B-T {
-  background-color: blue;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}

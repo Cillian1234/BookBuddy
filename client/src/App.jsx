@@ -10,7 +10,6 @@ import Navbar from './components/Navbar'; // Importing Navbar component
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'; // Importing Barcode Scanner component
 import Cookies from "js-cookie"; // Importing js-cookie for cookie management
 import bcodeimg from './assets/Images by AJ/bcodescnimg.jpg'; //Importing the img for the scanner toggle
-
 function App() {
   // State to store the result of the barcode scan
   const [barcodeResult, setBarcodeResult] = useState('No result');
@@ -53,15 +52,15 @@ function App() {
           <h1>BookBuddy</h1> {/* Main title */}
         </div>
         <div className="image-container">
-          <a href="/teachSign" target="_blank" className="button-link">
+          <a href="/teachSign" className="button-link">
             <img src={teachB} className="button-image tSign" alt="Blue button pencil" /> {/* Teacher button */}
             <span className="button-text button-text-T">Teacher</span>
           </a>
-          <a href="/childSign" target="_blank" className="button-link">
+          <a href="/childSign" className="button-link">
             <img src={childB} className="button-image cSign" alt="Yellow button pencil" /> {/* Child button */}
             <span className="button-text">Child</span>
           </a>
-          <a href="/parentSign" target="_blank" className="button-link">
+          <a href="/parentSign" className="button-link">
             <img src={parentB} className="button-image pSign" alt="Red button pencil" /> {/* Parent button */}
             <span className="button-text button-text-P">Parent</span>
           </a>
