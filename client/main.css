@@ -227,3 +227,7 @@ a span {
 .barcode-toggle img{
   width:30%;
 }
+
+body {
+  background-color: white;
+}

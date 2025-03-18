@@ -1,0 +1,68 @@
+/* Main container for the Parent-to-Child page */
+.parent-to-child {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Heading styles */
+h1, h2 {
+    color: #2c3e50;
+}
+
+/* Section styles */
+.section {
+    margin-bottom: 20px;
+}
+
+/* List styles within sections */
+.section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* List item styles */
+.section li {
+    background-color: #dfe6e9;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    color: #2c3e50;
+}
+
+/* Review card styles */
+.review-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #dfe6e9;
+    color: #2c3e50;
+}
+
+/* Star container styles */
+.stars {
+    display: flex;
+    align-items: center;
+}
+
+/* Star image styles */
+.star-image, .empty-star-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* Filled star image style */
+.star-image {
+    filter: grayscale(0%);
+}
+
+/* Empty star image style */
+.empty-star-image {
+    filter: grayscale(100%);
+}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../css/login/childSign.css';
 import childGP from '../../assets/Images by AJ/GreenPencil.png';
 import dengBackpack from '../../assets/Images by AJ/DengBackpack.png';
 import happyBlocks from '../../assets/Images by AJ/HappyBlocks.png';
 import Cookies from "js-cookie";
+import home from '../../assets/Images by AJ/bckhome.png';
 
 const ChildSign = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -14,15 +15,13 @@ const ChildSign = ({ onLogin }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const level = "Child"
-
-    // TODO: figure out how to get server/Login.js to work instead of copying this code
+    const level = "Child";
 
     async function login() {
       await fetch(`http://localhost:8080/record/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Indicate the type of data being sent
+          'Content-Type': 'application/json', 
         },
         body: JSON.stringify({
           username, pass, level
@@ -37,17 +36,16 @@ const ChildSign = ({ onLogin }) => {
               Cookies.set("Level", "Child", {expires: 1});
               navigate('/child');
             }
-          })
+          });
     }
-    login()
+    login();
   };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="cSign-Con">
-      <Link to={`/`}>Home</Link>
+      <Link to={`/`}><img id="home" src={home} alt="backHome" /></Link>
 
       <form onSubmit={handleSubmit} className="form">
         <h1 id="stu-Sign">Student Sign In</h1>
