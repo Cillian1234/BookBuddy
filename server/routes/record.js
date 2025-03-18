@@ -132,21 +132,21 @@ router.post("/AddToClass", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const body = await req.body;
-    const {username, pass, level} = body;
+    const { username, pass, level } = body;
 
     let collection = await db.collection("Users");
     let query = {
         email: username,
         pass: pass,
         level: level,
-    }
-    let result = await collection.findOne(query)
+    };
+    let result = await collection.findOne(query);
     if (!result) {
-        res.send(null).status(404)
+        res.send(null).status(404);
     } else {
-        res.send(result._id).status(200)
+        res.send(result._id).status(200);
     }
-})
+});
 
 router.post("/getUserInfo", async (req, res) => {
     const body = await req.body;

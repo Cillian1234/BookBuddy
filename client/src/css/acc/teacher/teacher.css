@@ -3,7 +3,7 @@
   display: grid; 
   grid-template-columns: 1fr 1fr; /* Two  columns layout 1fr = 1 fraction*/
   grid-gap: 20px; /* Space between items */
-  background-color: #202c3b; 
+  background-color: #374454; 
   padding: 20px;
 }
 

@@ -1,90 +1,89 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../../css/login/teachSign.css';
-import Login from '../../../../server/loginLogic/Login.js';
-import Diamonds from '../../assets/Images by AJ/YellowSparkle.png';
-import Cookies from 'js-cookie';
-import Books from '../../assets/Images by AJ/booksBpile.png';
-import home from '../../assets/Images by AJ/bckhome.png';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../../css/login/teachSign.css"; // Import the CSS for styling
+import Cookies from "js-cookie"; // Import js-cookie for managing cookies
+import Diamonds from "../../assets/Images by AJ/YellowSparkle.png";
+import Books from "../../assets/Images by AJ/booksBpile.png";
+import home from "../../assets/Images by AJ/bckhome.png";
 
-const TeachSign = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [errMessage, setErrMessage] = useState(false);
-  const navigate = useNavigate();
+const TeachSign = () => {
+    const [username, setUsername] = useState(""); // State for username
+    const [pass, setPass] = useState(""); // State for password
+    const [errMessage, setErrMessage] = useState(""); // State for error messages
+    const navigate = useNavigate(); // Hook for navigation
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const level = "Teacher";
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        const level = "Teacher"; // Set the user level as "Teacher"
 
-    async function login() {
-      await fetch(`http://localhost:8080/record/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username, pass, level,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data) {
-            setErrMessage(errMessage => !errMessage);
-          } else {
-            Cookies.set("UID", data, { expires: 1 });
-            Cookies.set("Level", "Teacher", { expires: 1 });
-            navigate('/teacher');
-          }
-        });
-    }
-    login();
-  };
+        // Input validation to ensure both fields are filled
+        if (!username || !pass) {
+            setErrMessage("Both fields are required.");
+            return;
+        }
 
-  useEffect(() => {}, []);
+        try {
+            // Call the Login function
+            const result = await Login(username, pass, level);
 
-  return (
-    <div className="TeachSign-con">
-      <Link to={`/`}><img id = {"home"} src={home} alt={"backHome"}/></Link>
+            // Handle invalid credentials
+            if (!result || !result.redirect) {
+                setErrMessage("Invalid credentials. Please check your details.");
+                return;
+            }
 
-      <form onSubmit={handleSubmit} className="form-t">
-        <h1 id="TeachSign-h1">Teacher Sign In</h1>
-        <div className="img-Con-T">
-          <div className="image-box-T">
-            <img src={Diamonds} alt="Diamond" /> {/* Diamond image added */}
-            <label htmlFor="upload-photo" className="up-lbl-T">Upload Photo</label>
-            <input type="file" id="upload-photo" className="up-inp-T" />
-          </div>
-          <img src={Books} alt="Books Pile" className="bookBpile-image" />
+            console.log("Login successful:", result);
+
+            // Set cookies for user ID and level
+            Cookies.set("UID", result.userId, { expires: 1, secure: true });
+            Cookies.set("Level", level, { expires: 1, secure: true });
+
+            // Navigate to the teacher's dashboard
+            navigate(result.redirect || "/teacher");
+        } catch (error) {
+            console.error("An error occurred during login:", error.message);
+            setErrMessage("An error occurred. Please try again.");
+        }
+    };
+
+    return (
+        <div className="TeachSign-con">
+            <Link to={`/`}><img id="home" src={home} alt="backHome" /></Link>
+            <form onSubmit={handleSubmit} className="form-t">
+                <h1 id="TeachSign-h1">Teacher Sign In</h1>
+                <div className="img-Con-T">
+                    <div className="image-box-T">
+                        <img src={Diamonds} alt="Diamond" />
+                        <label htmlFor="upload-photo" className="up-lbl-T">Upload Photo</label>
+                        <input type="file" id="upload-photo" className="up-inp-T" />
+                    </div>
+                    <img src={Books} alt="Books Pile" className="bookBpile-image" />
+                </div>
+                <div className="form-group-T">
+                    <label htmlFor="username">Enter Your Name</label>
+                    <input
+                        type="text"
+                        id="username"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="pass">Password</label>
+                    <input
+                        type="password"
+                        id="pass"
+                        required
+                        value={pass}
+                        onChange={(e) => setPass(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="sub-B-T">Submit</button>
+                {errMessage && <p>{errMessage}</p>}
+            </form>
         </div>
-        <div className="form-group-T">
-          <label htmlFor="username">Enter Your Name</label>
-          <input
-            type="email"
-            id="username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="pass">Password</label>
-          <input
-            type="password"
-            id="pass"
-            name="pass"
-            required
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="sub-B-T">Signup</button>
-        {errMessage && <p>Wrong</p>}
-      </form>
-    </div>
-  );
+    );
 };
 
 export default TeachSign;

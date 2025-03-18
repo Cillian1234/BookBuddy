@@ -1,96 +1,93 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../../css/login/childSign.css';
-import childGP from '../../assets/Images by AJ/GreenPencil.png';
-import dengBackpack from '../../assets/Images by AJ/DengBackpack.png';
-import happyBlocks from '../../assets/Images by AJ/HappyBlocks.png';
-import Cookies from "js-cookie";
-import home from '../../assets/Images by AJ/bckhome.png';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../../css/login/childSign.css"; // Import the CSS for styling
+import Cookies from "js-cookie"; // Import js-cookie for managing cookies
+import happyBlocks from "../../assets/Images by AJ/HappyBlocks.png";
+import dengBackpack from "../../assets/Images by AJ/DengBackpack.png";
+import home from "../../assets/Images by AJ/bckhome.png";
 
-const ChildSign = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [pass, setPass] = useState('');
-  const [errMessage, setErrMessage] = useState(false);
-  const navigate = useNavigate();
+const ChildSign = () => {
+    const [username, setUsername] = useState(""); // State for the child's username
+    const [pass, setPass] = useState(""); // State for the parent's name
+    const [errMessage, setErrMessage] = useState(""); // State for error messages
+    const navigate = useNavigate(); // Hook for nav
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const level = "Child";
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        const level = "Child"; // Set user level as "Child"
 
-    async function login() {
-      await fetch(`http://localhost:8080/record/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({
-          username, pass, level
-        }),
-      })
-          .then(res => res.json())
-          .then(data => {
-            if (!data) {
-              setErrMessage(errMessage => !errMessage);
-            } else {
-              Cookies.set("UID", data, {expires: 1});
-              Cookies.set("Level", "Child", {expires: 1});
-              navigate('/child');
+        // Input validation to ensure both fields are filled
+        if (!username || !pass) {
+            setErrMessage("Both fields are required.");
+            return;
+        }
+
+        try {
+            // Call the Login function
+            const result = await Login(username, pass, level);
+
+            // Handle invalid credentials
+            if (!result || !result.redirect) {
+                setErrMessage("Invalid credentials. Please check your details.");
+                return;
             }
-          });
-    }
-    login();
-  };
 
-  useEffect(() => {}, []);
+            console.log("Login successful:", result);
 
-  return (
-    <div className="cSign-Con">
-      <Link to={`/`}><img id="home" src={home} alt="backHome" /></Link>
+            // Set cookies for user ID and level
+            Cookies.set("UID", result.userId, { expires: 1, secure: true });
+            Cookies.set("Level", level, { expires: 1, secure: true });
 
-      <form onSubmit={handleSubmit} className="form">
-        <h1 id="stu-Sign">Student Sign In</h1>
-        <div className="img-Con">
-          <div className="img-L">
-            <img src={happyBlocks} alt="Happy Blocks" className="side-img"/>
-          </div>
-          <div className="image-box">
-            <label htmlFor="upload-photo" className="up-lbl">Upload Photo</label>
-            <input type="file" id="upload-photo" className="up-inp"/>
-          </div>
-          <div className="img-R">
-            <img src={dengBackpack} alt="Deng Backpack" className="side-img"/>
-          </div>
+            // Navigate to the child's dashboard
+            navigate(result.redirect || "/child");
+        } catch (error) {
+            console.error("An error occurred during login:", error.message);
+            setErrMessage("An error occurred. Please try again.");
+        }
+    };
+
+    return (
+        <div className="cSign-Con">
+            <Link to={`/`}><img id="home" src={home} alt="backHome" /></Link>
+            <form onSubmit={handleSubmit} className="form">
+                <h1 id="stu-Sign">Student Sign In</h1>
+                <div className="img-Con">
+                    <div className="img-L">
+                        <img src={happyBlocks} alt="Happy Blocks" className="side-img" />
+                    </div>
+                    <div className="image-box">
+                        <label htmlFor="upload-photo" className="up-lbl">Upload Photo</label>
+                        <input type="file" id="upload-photo" className="up-inp" />
+                    </div>
+                    <div className="img-R">
+                        <img src={dengBackpack} alt="Deng Backpack" className="side-img" />
+                    </div>
+                </div>
+                <div className="child-Form">
+                    <label htmlFor="username">Enter Your Name</label>
+                    <input
+                        type="text"
+                        id="username"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="child-Form">
+                    <label htmlFor="pass">Enter Your Parent's Name</label>
+                    <input
+                        type="text"
+                        id="pass"
+                        required
+                        value={pass}
+                        onChange={(e) => setPass(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="submit-BChild">Submit</button>
+                {errMessage && <p>{errMessage}</p>}
+            </form>
         </div>
-        <div className="child-Form">
-          <label htmlFor="username">Enter Your Name</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="child-Form">
-          <label htmlFor="pass">Enter Your Parent's Name</label>
-          <input
-            type="password"
-            id="pass"
-            name="pass"
-            required
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="submit-BChild">
-          <img src={childGP} className="childGP-Sty" alt="green pencil" />
-          <span className="submit-text">Submit</span>
-        </button>
-        {errMessage && <p>{errMessage}</p>}
-      </form>
-    </div>
-  );
+    );
 };
 
 export default ChildSign;
