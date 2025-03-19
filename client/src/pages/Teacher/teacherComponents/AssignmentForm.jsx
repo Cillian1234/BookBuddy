@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function AssignmentForm({ assignment, handleAssignmentChange, handleAssignmentSubmit }) {
+export default function AssignmentForm({ assignment, selectedStudent, handleAssignmentChange, handleAssignmentSubmit }) {
     return (
         <form className="assignments-section" onSubmit={handleAssignmentSubmit}>
 
@@ -37,8 +37,9 @@ export default function AssignmentForm({ assignment, handleAssignmentChange, han
                 <input
                     type="text"
                     name="assignedTo"
-                    value={assignment.assignedTo}
-                    onChange={event => handleAssignmentChange(event.target.name, event.target.value)}
+                    value={selectedStudent.StudentName}
+                    readOnly={true}
+                    // onChange={event => handleAssignmentChange(event.target.name, event.target.value)}
                 />
             </label>
             <label>

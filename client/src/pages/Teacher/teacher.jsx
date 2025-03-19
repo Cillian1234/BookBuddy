@@ -20,13 +20,14 @@ export default function Teacher() {
   const [teacherName, setTeacherName] = useState(getTeacherName())
   const [classrooms, setClassrooms] = useState();
   const [classAssignments, setClassAssignments] = useState();
+  const [selectedStudent, setSelectedStudent] = useState("Please select a student")
   const [classAdd, setClassAdd] = useState({
     teacherID: _id,
     studentName: "",
     studentID:""
   }); // Construct for database query
   const [assignment, setAssignment] = useState({
-    assignedTo: "",
+    assignedTo: selectedStudent.studentID,
     assignmentContent: "",
     teacherName: "",
     dueDate: "",
@@ -34,7 +35,7 @@ export default function Teacher() {
   }); // Construct for database query
 
   const [studentReview, setStudentReview] = useState({
-    childID: "",
+    childID: selectedStudent.studentID,
     stars: "",
     teacherName: "",
     teacherComment: "",
@@ -69,6 +70,7 @@ export default function Teacher() {
   function handleReviewChange(field, changedValue) {
     setStudentReview(prevReview => ({
       ...prevReview,
+      childID: selectedStudent.StudentID,
       [field]: changedValue,
     }));
   }
@@ -91,9 +93,9 @@ export default function Teacher() {
   function handleAssignmentChange(field, changedValue) {
     setAssignment(prevAssignment => ({
       ...prevAssignment,
+      assignedTo: selectedStudent.StudentID,
       [field]: changedValue,
     }));
-    console.log(teacherName)
   };
 
   async function handleAssignmentSubmit(event) {
@@ -145,10 +147,6 @@ export default function Teacher() {
     })
   };
 
-  const handleSelectStudent = (studentName) => {
-    // TODO: select student
-  };
-
   async function getTeacherName() {
 
     const response = await fetch(`http://localhost:8080/record/getUserInfo`, {
@@ -171,6 +169,11 @@ export default function Teacher() {
     await fetch(`http://localhost:8080/record/${id}`, {
       method: "DELETE",
     });
+  }
+
+  function setSelectedStudentFromChild(SelectedStudent) {
+    setSelectedStudent(SelectedStudent)
+    console.log(selectedStudent)
   }
 
   return (
@@ -198,6 +201,7 @@ export default function Teacher() {
             <StudentList
               classroom={classrooms}
               classAssignments={classAssignments}
+              setSelectedStudent={setSelectedStudentFromChild}
               deleteStudent={deleteStudent}
             />
           }
@@ -211,12 +215,14 @@ export default function Teacher() {
 
         <AssignmentForm
           assignment={assignment}
+          selectedStudent={selectedStudent}
           handleAssignmentChange={handleAssignmentChange}
           handleAssignmentSubmit={handleAssignmentSubmit}
         />
 
         <ReviewForm
           studentReview={studentReview}
+          selectedStudent={selectedStudent}
           handleReviewChange={handleReviewChange}
           handleReviewSubmit={handleReviewSubmit}
         />
