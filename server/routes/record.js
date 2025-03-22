@@ -10,11 +10,11 @@ const router = express.Router(); // Router defines routes
 */
 
 // Get records
-router.get("/", async (req, res) => {
-    let collection = await db.collection("Users");
-    let results = await collection.find({}).toArray();
+router.get("/", async (req, res) => { // "/" is path for this route
+    let collection = await db.collection("Users"); // In collection Users
+    let results = await collection.find({}).toArray(); // Find all entries, convert data to array
 
-    res.send(results).status(200);
+    res.send(results).status(200); // return array and status code 200
 });
 
 // Get 1 record
@@ -42,35 +42,35 @@ router.post("/getReviews", async (req, res) => {
     res.send(results).status(200);
 });
 
-router.post("/setReview", async (req, res) => {
-    const body = await req.body;
-    const {childID, stars, teacherName, teacherComment} = body;
-    try {
-        let newReview = {
+router.post("/setReview", async (req, res) => { // "setReview"
+    const body = await req.body; // Wait for content of request
+    const {childID, stars, teacherName, teacherComment} = body; // Destructure body into individual data that was sent
+    try { // try
+        let newReview = { // make an object containing data formatted correctly for DB collection
             childID,
             stars: Number(stars),
             comment: teacherComment,
             teacherName,
         };
-        let collection = await db.collection("Reviews");
-        let result = await collection.insertOne(newReview);
-        res.send(result).status(204);
-    } catch (err) {
+        let collection = await db.collection("Reviews"); // In Reviews collection
+        let result = await collection.insertOne(newReview); // Insert review object
+        res.send(result).status(204); // Return result (which is null) and status 200
+    } catch (err) { // Or it fucks up
         console.error(err);
         res.status(500).send("Error adding record")
     }
 });
 
-router.post("/getAssignments", async (req, res) => {
-    const body = await req.body;
-    const {childID} = body;
+router.post("/getAssignments", async (req, res) => { // Get with .post as the method, needed if you want to search with params
+    const body = await req.body; // Body from req
+    const {childID} = body; // Destructure childID
 
-    let collection = await db.collection("Assignments");
+    let collection = await db.collection("Assignments"); // Search in Assignments
     let results = await collection.find({
         assignedTo: childID
-    }).toArray();
+    }).toArray(); // Find entries where assignedTo matches childID
 
-    res.send(results).status(200);
+    res.send(results).status(200); // Return results as array
 });
 
 router.post("/setAssignment", async (req, res) => {
