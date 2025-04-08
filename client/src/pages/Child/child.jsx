@@ -4,6 +4,7 @@ import Navbar from '../../../src/components/Navbar.jsx';
 //Importing the images used to link to their page
 import starRevB from '../../assets/Images by AJ/starRevB.png';
 import bookHWB from '../../assets/Images by AJ/bookHWB.png';
+import lib from '../../assets/Images by AJ/libBooks.png';
 //Importing the css files from css folder
 import '../../css/acc/child/child.css'; 
 //Importing image for the background
@@ -26,6 +27,7 @@ export default function Child() {
             <div className="ButtonCon">
             <Link to={"/Child/Review"}><img id = {"sRB"} src={starRevB} alt={"Review"}/></Link>
             <Link to={"/Child/Assignment"}><img id = {"bHWB"} src={bookHWB} alt={"Assignment"}/></Link>
+            <Link to={"/Child/Library"}><img id = {"lib"} src={lib} alt={"Library"}/></Link>
             </div>
         </div>
     </>

@@ -19,7 +19,10 @@ export default function StudentList(props) {
 
     const createStudentListElement = (
         students.map((Student, key) => (
-            <li key={key}>
+            <li
+                key={key}
+                onClick={() => selectStudent(Student.studentID, Student.name)}
+            >
                 {Student.name} {Student.studentID}
                 {/*TODO: make delete user entry in classroom student table*/}
                 {/*<button*/}
@@ -30,8 +33,12 @@ export default function StudentList(props) {
                 {/*    }}*/}
                 {/*>Delete</button>*/}
             </li>
-))
-)
+        ))
+    )
+
+function selectStudent(StudentID, StudentName) {
+        props.setSelectedStudent({StudentID, StudentName});
+}
 
 function createClassroomAssignmentListElement() {
     return assignments.map((Assignment, key) => (

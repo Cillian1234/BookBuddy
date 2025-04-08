@@ -10,11 +10,11 @@ const router = express.Router(); // Router defines routes
 */
 
 // Get records
-router.get("/", async (req, res) => {
-    let collection = await db.collection("Users");
-    let results = await collection.find({}).toArray();
+router.get("/", async (req, res) => { // "/" is path for this route
+    let collection = await db.collection("Users"); // In collection Users
+    let results = await collection.find({}).toArray(); // Find all entries, convert data to array
 
-    res.send(results).status(200);
+    res.send(results).status(200); // return array and status code 200
 });
 
 // Get 1 record
@@ -42,35 +42,35 @@ router.post("/getReviews", async (req, res) => {
     res.send(results).status(200);
 });
 
-router.post("/setReview", async (req, res) => {
-    const body = await req.body;
-    const {childID, stars, teacherName, teacherComment} = body;
-    try {
-        let newReview = {
+router.post("/setReview", async (req, res) => { // "setReview"
+    const body = await req.body; // Wait for content of request
+    const {childID, stars, teacherName, teacherComment} = body; // Destructure body into individual data that was sent
+    try { // try
+        let newReview = { // make an object containing data formatted correctly for DB collection
             childID,
             stars: Number(stars),
             comment: teacherComment,
             teacherName,
         };
-        let collection = await db.collection("Reviews");
-        let result = await collection.insertOne(newReview);
-        res.send(result).status(204);
-    } catch (err) {
+        let collection = await db.collection("Reviews"); // In Reviews collection
+        let result = await collection.insertOne(newReview); // Insert review object
+        res.send(result).status(204); // Return result (which is null) and status 200
+    } catch (err) { // Or it fucks up
         console.error(err);
         res.status(500).send("Error adding record")
     }
 });
 
-router.post("/getAssignments", async (req, res) => {
-    const body = await req.body;
-    const {childID} = body;
+router.post("/getAssignments", async (req, res) => { // Get with .post as the method, needed if you want to search with params
+    const body = await req.body; // Body from req
+    const {childID} = body; // Destructure childID
 
-    let collection = await db.collection("Assignments");
+    let collection = await db.collection("Assignments"); // Search in Assignments
     let results = await collection.find({
         assignedTo: childID
-    }).toArray();
+    }).toArray(); // Find entries where assignedTo matches childID
 
-    res.send(results).status(200);
+    res.send(results).status(200); // Return results as array
 });
 
 router.post("/setAssignment", async (req, res) => {
@@ -132,21 +132,21 @@ router.post("/AddToClass", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const body = await req.body;
-    const { username, pass, level } = body;
+    const {username, pass, level} = body;
 
     let collection = await db.collection("Users");
     let query = {
         email: username,
         pass: pass,
         level: level,
-    };
-    let result = await collection.findOne(query);
-    if (!result) {
-        res.send(null).status(404);
-    } else {
-        res.send(result._id).status(200);
     }
-});
+    let result = await collection.findOne(query)
+    if (!result) {
+        res.send(null).status(404)
+    } else {
+        res.send(result._id).status(200)
+    }
+})
 
 router.post("/getUserInfo", async (req, res) => {
     const body = await req.body;
@@ -261,5 +261,56 @@ router.delete("/deleteStudent/:id", async (req, res) => {
         res.status(500).send("Error deleting record")
     }
 })
+
+//Have to get back to this since I'm getting errors..
+// Getting books for specific user (For Child's Library)
+router.post('/getBooks', async (req, res) => {
+    const { userId } = req.body;
+
+    try {
+        const booksCollection = db.collection('Books');
+        const books = await booksCollection.find({ userId }).toArray();
+
+        // Return the list of books
+        res.status(200).json(books);
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch books' });
+    }
+});
+
+// This too.. sorry goiys
+// Adding a new book to the user (For Childs Library) 
+router.post('/addBook', async (req, res) => {
+    const { userId, isbn, title, author } = req.body;
+
+    try {
+        const booksCollection = db.collection('Books');
+
+        // Check if the book already exists for the user
+        const existingBook = await booksCollection.findOne({ userId, isbn });
+        if (existingBook) {
+            return res.status(400).json({ success: false, message: 'This book already exists in your library' });
+        }
+
+        // Create a new book record
+        const newBook = {
+            userId,
+            isbn,
+            title,
+            author,
+            addedAt: new Date(), // Timestamp for when the book is added
+        };
+
+        // Insert the new book into the collection
+        const result = await booksCollection.insertOne(newBook);
+
+        // Return success message
+        res.status(200).json({ success: true, message: 'Book added successfully' });
+    } catch (error) {
+        console.error('Error adding book:', error);
+        res.status(500).json({ success: false, message: 'Failed to add book' });
+    }
+});
 
 export default router;
