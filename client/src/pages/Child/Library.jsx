@@ -56,7 +56,13 @@ export default function Library() {
     try {
       console.log('Adding book with ISBN:', isbn);
       const openLibraryUrl = `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`;
-      const response = await fetch(openLibraryUrl);
+      
+      // User-Agent header here - following the guidelines
+      const response = await fetch(openLibraryUrl, {
+        headers: {
+          "User-Agent": "BookBuddy/1.0 (hanapkokuyabuvs@yahoo.com)" //Using personal email here for now since I'm not sure what email to use
+        }
+      });
       const data = await response.json();
   
       if (data[`ISBN:${isbn}`]) {
@@ -74,7 +80,7 @@ export default function Library() {
             isbn,
             title,
             author,
-            childID,  // Use the fallback "Unknown" for testing
+            childID,  // if no childId found result unknown for now
           }),
         });
   
@@ -95,6 +101,7 @@ export default function Library() {
       alert('Failed to fetch book details.');
     }
   };
+  
 
   return (
     <div className="library-container">
