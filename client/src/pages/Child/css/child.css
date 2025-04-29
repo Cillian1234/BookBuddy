@@ -29,3 +29,35 @@
   margin: 0;
 }
 
+/* Progress bar container pinned to the bottom */
+.progress-bar-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* so it doesn't block any clicks */
+  z-index: 10;
+}
+
+/* The full bar image */
+.progress-bar-image {
+  width: 80%;
+  max-width: 600px;
+  height: auto;
+  position: relative;
+}
+
+/* The icon that moves along the bar */
+.progress-bar-icon {
+  position: absolute;
+  bottom: 5px;
+  width: 40px;
+  height: 40px;
+  transition: left 0.4s ease; /* smooth movement */
+}
+
+
