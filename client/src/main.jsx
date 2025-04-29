@@ -10,6 +10,7 @@ import RecordList from "./components/RecordList.jsx";
 import DBTestPage from "./pages/DBTestPage.jsx";
 import Review from "./pages/Child/Review.jsx";
 import Assignment from "./pages/Child/Assignment.jsx";
+import Library from "./pages/Child/Library.jsx";
 import P_to_C from "./pages/Parent/P-to-C.jsx";
 import P_to_T from "./pages/Parent/P-to-T.jsx";
 import TeachSign from './pages/SignUpPgs/TeachSign.jsx';
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: '/Child/Assignment',
     element: <Assignment />,
+  },
+  {
+    path: '/Child/Library',
+    element: <Library />,
   },
   {
     path: '/Parent',

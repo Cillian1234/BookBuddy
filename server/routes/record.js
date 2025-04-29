@@ -262,4 +262,71 @@ router.delete("/deleteStudent/:id", async (req, res) => {
     }
 })
 
+//Have to get back to this since I'm getting errors.. (ERRORS FIXED MWAHAHAHA.. But still have to get the childId)
+// Getting books for a specific user (For Child's Library)
+router.get("/getBooks", async (req, res) => {
+    try {
+        const childID = req.query.childID; // Get childID from query params
+
+        // If no childID is provided, return an error
+        if (!childID) {
+            return res.status(400).send("Child ID is required.");
+        }
+
+        let collection = await db.collection("Books");
+
+        // Construct query to filter by childID
+        let query = { childID };
+
+        // Find books for the specific child
+        let books = await collection.find(query).toArray();
+
+        if (books.length === 0) {
+            return res.status(404).send("No books found for this child.");
+        }
+
+        // Send back books as JSON
+        res.status(200).json(books);
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).send("Error fetching books from the database.");
+    }
+});
+
+
+// This too.. sorry goiys
+// Adding a new book to the user's library (For Child's Library)
+router.post("/addBook", async (req, res) => {
+    try {
+        console.log('Request body:', req.body);  // Log the request body to check incoming data
+
+        const { isbn, title, author, childID } = req.body;
+
+        if (!isbn || !title || !author || !childID) {
+            return res.status(400).send("All fields (isbn, title, author, childID) are required.");
+        }
+        let newBook = {
+            isbn,
+            title,
+            author,
+            childID, // Will be "Unknown" if not signed in (Jst for the moment until codes with session and login is merged)
+            addedAt: new Date(),
+        };
+
+        let booksCollection = await db.collection("Books");
+
+        const existingBook = await booksCollection.findOne({ isbn });
+        if (existingBook) {
+            return res.status(400).send("This book already exists in the library.");
+        }
+
+        let result = await booksCollection.insertOne(newBook);
+
+        res.status(201).send({ message: "Book added successfully!", id: result.insertedId });
+    } catch (error) {
+        console.error("Error adding book:", error);
+        res.status(500).send("Error adding book to the library.");
+    }
+});
+
 export default router;
