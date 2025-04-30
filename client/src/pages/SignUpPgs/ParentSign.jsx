@@ -58,25 +58,14 @@ const ParentSign = ({ onLogin }) => {
           <img src={booksRpile} alt="Books Pile" className="booksRpile-image" />
         </div>
         <div className="form-group-P">
-          <label htmlFor="username">Enter Your Name</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-group-P">
           <label htmlFor="email">Enter Your Email</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              id="username"
+              name="username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="form-group-P">
