@@ -1,0 +1,74 @@
+/* Container for the entire messaging interface */
+.messaging-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the box that displays all messages */
+.messages-box {
+    border: 1px solid #64b347;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #e3f4e1;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Individual message appearance */
+.message {
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background-color: #d4edcd;
+    border-left: 6px solid #64b347;
+    border-radius: 5px;
+    color: #3d8b37;
+    font-size: 15px;
+}
+
+/* Layout for input area containing the textarea and button */
+.input-area {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styling for the message input field */
+textarea {
+    resize: none;
+    height: 80px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #64b347;
+    border-radius: 5px;
+    background-color: green;
+    margin-bottom: 10px;
+}
+
+/* Styling for the send button */
+button {
+    width: 120px;
+    padding: 10px;
+    background-color: #89c46b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #74ab5a;
+}
+
+/* Page heading styles */
+.messaging-container h1 {
+    font-size: 24px;
+    color: #3d8b37;
+    margin-bottom: 15px;
+    text-align: center;
+}
