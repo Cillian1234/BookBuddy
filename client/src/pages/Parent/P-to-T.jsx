@@ -38,39 +38,20 @@ export default function P_to_T() {
                 message,
                 sender: 'Parent',
                 recipientID,
+                timestamp: new Date().toLocaleString(), // Add timestamp for display
             };
-    
-            console.log("Sending message:", newMessage);
-    
-            try {
-                const response = await fetch('/saveMessage', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newMessage),
-                });
-    
-                if (response.ok) {
-                    const refreshResponse = await fetch(`/getMessages/${recipientID}`);
-                    if (refreshResponse.ok) {
-                        const updatedMessages = await refreshResponse.json();
-                        console.log("Updated messages after send:", updatedMessages);
-                        setMessages(updatedMessages);
-                    }
-                    setMessage('');
-                } else {
-                    console.error('Error sending message');
-                }
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }
+
+            // Immediately add the new message to the messages state
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            setMessage(''); // Clear the input field
+
+            // In your real app, you would send this to the server here
+            // await sendMessageToDatabase(newMessage);
         } else {
             console.warn('Empty message not sent.');
         }
     };
-    
-    
+
     // JSX structure returned by the component
     return (
         <>
