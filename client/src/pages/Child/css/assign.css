@@ -3,30 +3,30 @@
     height: 100vh;
 }
 
-/* Aligning .navBTNS to the center at the top */
-.ChildNB {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    margin-top: 10px; /* Add some space below Navbar */
-}
+.upload-btn {
+    display: inline-block; /* Make sure it's visible */
+    margin: 10px 0;
+  }  
 
+  /* Container for nav buttons */
 .navBTNS {
-    display: flex;
-    justify-content: center; /* Center horizontally within ChildNB */
-    align-items: center;     /* Center vertically */
-    background-color: rgb(255, 255, 255); /* Background color */
-    padding: 2px; /* Padding to fit the contents without extra space */
-    border-radius: 8px; /* Optional: Add rounded corners for a better look */
-    gap: 10px; /* Space between buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* space between buttons */
+  margin: 20px 0;
 }
 
-    
-    /* Styling the size of the images */
-    #home{
-      width: 80px;
-    }
-  
-    #strB {
-        margin-top: 40px;
-        width: 130px;
-    }
+/* Apply consistent size to all nav images */
+.navBTNS img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Optional hover effect */
+.navBTNS img:hover {
+  transform: scale(1.1);
+}

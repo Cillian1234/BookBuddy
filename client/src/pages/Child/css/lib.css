@@ -20,3 +20,25 @@
     flex: 1;
   }
   
+  /* Container for nav buttons */
+.navBTNS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* space between buttons */
+  margin: 20px 0;
+}
+
+/* Apply consistent size to all nav images */
+.navBTNS img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Optional hover effect */
+.navBTNS img:hover {
+  transform: scale(1.1);
+}

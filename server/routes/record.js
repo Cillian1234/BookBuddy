@@ -61,11 +61,11 @@ router.post("/setReview", async (req, res) => { // "setReview"
     }
 });
 
-router.post("/getAssignments", async (req, res) => { // Get with .post as the method, needed if you want to search with params
-    const body = await req.body; // Body from req
-    const {childID} = body; // Destructure childID
+router.post("/getAssignments", async (req, res) => { 
+    const body = await req.body; 
+    const {childID} = body; 
 
-    let collection = await db.collection("Assignments"); // Search in Assignments
+    let collection = await db.collection("Assignments"); 
     let results = await collection.find({
         assignedTo: childID
     }).toArray(); // Find entries where assignedTo matches childID
@@ -262,7 +262,7 @@ router.delete("/deleteStudent/:id", async (req, res) => {
     }
 })
 
-//Have to get back to this since I'm getting errors.. (ERRORS FIXED MWAHAHAHA.. But still have to get the childId)
+//Have to get back to this since I'm getting errors.. (ERRORS FIXED MWAHAHAHA.. But still have to get the childId, CHILDID WORKS!!)
 // Getting books for a specific user (For Child's Library)
 router.get("/getBooks", async (req, res) => {
     try {
@@ -309,7 +309,7 @@ router.post("/addBook", async (req, res) => {
             isbn,
             title,
             author,
-            childID, // Will be "Unknown" if not signed in (Jst for the moment until codes with session and login is merged)
+            childID, // Will be "Unknown" if not signed in (Jst for the moment until codes with cookies and login is merged)
             addedAt: new Date(),
         };
 
@@ -326,6 +326,36 @@ router.post("/addBook", async (req, res) => {
     } catch (error) {
         console.error("Error adding book:", error);
         res.status(500).send("Error adding book to the library.");
+    }
+});
+
+// Get teacher comments for a specific child
+router.post("/getComments", async (req, res) => {
+    try {
+        const { childID } = req.body; // Get childID from request body
+
+        // If childID is missing, send error
+        if (!childID) {
+            return res.status(400).send("Child ID is required.");
+        }
+
+        const collection = await db.collection("Comments"); // Connect to Comments collection
+
+        // Only get comments where childID matches
+        const query = { childID };
+
+        const comments = await collection.find(query).toArray();
+
+        // If no comments found, just return empty list
+        if (!comments || comments.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        // Return the comments as JSON
+        res.status(200).json(comments);
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        res.status(500).send("Failed to get teacher comments.");
     }
 });
 

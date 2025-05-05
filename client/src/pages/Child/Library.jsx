@@ -8,6 +8,17 @@ import barcodeScannerImg from "../../assets/Images by AJ/bcodescnimg.jpg";
 // Importing the CSS
 import '../Child/css/lib.css';
 
+import { Link, useNavigate } from "react-router-dom";
+
+// Importing the navbar at the top
+import Navbar from "../../../src/components/Navbar.jsx";
+
+// Importing images for navbar
+import starRevB from '../../assets/Images by AJ/starRevB.png';
+import home from '../../assets/Images by AJ/home.png';
+import bookHWB from '../../assets/Images by AJ/bookHWB.png';
+
+
 export default function Library() {
   // Shows result after scanning
   const [barcodeResult, setBarcodeResult] = useState('No result'); 
@@ -112,6 +123,25 @@ export default function Library() {
   };
 
   return (
+    <>
+
+    <Navbar />
+    {/* Main content with background image */}
+    <nav className="ChildNB">
+      <div className="navBTNS">
+        <Link to={"/Child"}>
+          <img src={home} alt="Home" />
+        </Link>
+        <Link to={"/Child/Assignment"}>
+          <img src={bookHWB} alt="Assignment" />
+        </Link>
+        <Link to={"/Child/Review"}>
+          <img src={starRevB} alt="Review" />
+        </Link>
+      </div>
+    </nav>
+
+
     <div className="library-container">
       <h1>Your Library</h1>
 
@@ -167,5 +197,6 @@ export default function Library() {
         )}
       </div>
     </div>
+    </>
   );
 }

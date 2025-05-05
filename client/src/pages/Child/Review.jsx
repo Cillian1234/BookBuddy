@@ -4,6 +4,8 @@ import Navbar from '../../../src/components/Navbar.jsx';
 // Importing images for navigation buttons
 import home from '../../assets/Images by AJ/home.png';
 import bookHWB from '../../assets/Images by AJ/bookHWB.png';
+import libImg from '../../assets/Images by AJ/libBooks.png';
+
 import star from '../../assets/Images by AJ/1Star.png'; // Importing the star image
 // Importing CSS file for styling
 import '../../css/acc/child/rev.css'; 
@@ -75,6 +77,7 @@ function ChildNavbar() {
         <div className="navBTNS"> {/* Buttons container */}
           <Link to={"/Child"}><img id="home" src={home} alt="home" /></Link> {/* Link to Child page */}
           <Link to={"/Child/Assignment"}><img id="HWB" src={bookHWB} alt="Assignment" /></Link> {/* Link to Assignment page */}
+          <Link to={"/Child/Library"}><img id="libImg" src={libImg} alt= "Library" /></Link>{/* Link to Library page*/}
         </div>
       </nav>
     </>
